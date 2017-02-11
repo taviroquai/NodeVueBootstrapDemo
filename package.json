@@ -1,0 +1,17 @@
+{
+  "name": "nodeapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-session": "^1.2.1",
+    "formidable": "^1.1.1",
+    "handlebars": "^4.0.6",
+    "sqlite3": "^3.1.8"
+  }
+}

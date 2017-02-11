@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin Articles</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="shortcut icon" href="/assets/favicon.ico">
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        
+    </head>
+    <body>
+        
+        <div class="container" id="app">
+            <h1>Admin Articles</h1>
+            
+            <a href="/admin" 
+               class="btn btn-success btm-sm">Back</a>
+        
+            <a href="/admin/articles/form/0" 
+               style="margin-bottom: 10px"
+               v-bind:disabled="processing"
+               class="btn btn-primary btm-sm pull-right">New</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>ID</th><th>Title</th><th style="width: 130px"></th></tr>
+                </thead>
+                <tbody>
+                    {{#each articles }}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ title }}</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm"
+                               v-bind:disabled="processing"
+                               href="/admin/articles/form/{{ id }}">edit</a>
+                            &nbsp;
+                            <a class="btn btn-danger btn-sm"
+                               v-bind:disabled="processing"
+                               v-on:click.prevent="del"
+                               href="/admin/articles/del/{{ id }}">del</a>
+                        </td>
+                    </tr>
+                    {{/each }}
+                </tbody>
+            </table>
+        </div>
+        
+        <script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+        <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/assets/js/vue.js"></script>
+        <script src="/assets/js/vue-resource.js"></script>
+        <script>
+            
+            var client = new Vue({
+                el: '#app',
+
+                data: {
+                    processing: false,
+                    success: false,
+                    error: false
+                },
+
+                methods: {
+                    del: function(e) {
+                        
+                        var v = this;
+                        var el = e.currentTarget;
+                        var url = el.getAttribute('href');
+                        v.processing = true;
+                        v.success = false;
+                        v.error = false;
+                        
+                        v.$http.get(url).then((res) => {
+                            v.processing = false;
+                            if (res.body && res.body.success) {
+                                v.success = true;
+                                $(el).closest('tr').remove();
+                            } else {
+                                v.error = res.body.error;
+                            }
+                        });
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

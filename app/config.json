@@ -1,0 +1,29 @@
+{
+    "http": {
+        "port": 8000
+    },
+    "sessions": {
+        "secret": "Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD",
+        "files": "./storage/sessions",
+        "encrypt": true
+    },
+    "routes": [
+        
+        { "path": "^\/$", "controller": "Homepage" },
+        { "path": "^\/assets\/(.+)$", "controller": "Assets" },
+        
+        { "path": "^\/admin$", "controller": "admin/Index" },
+        
+        { "path": "^\/admin\/articles$", "controller": "articles/Index" },
+        { "path": "^\/admin\/articles\/form/([0-9]+)$", "controller": "articles/Form" },
+        { "path": "^\/admin\/articles\/save", "controller": "articles/Save" },
+        { "path": "^\/admin\/articles\/del/([0-9]+)$", "controller": "articles/Delete" },
+        
+        { "path": "^\/(.+)$", "controller": "articles/Display" }
+        
+    ],
+    "db": {
+        "type": "sqlite3",
+        "filename": "./storage/database/db.sqlite"
+    }
+}

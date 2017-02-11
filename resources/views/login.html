@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Edit Article</title>
+        <title>Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link rel="shortcut icon" href="/assets/favicon.ico">
+        <link href="/assets/favicon.ico" rel="shortcut icon">
         <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
 
     </head>
     <body>
         <div class="container" id="app">
-            <h1>Edit Article</h1>
-            
-            <div class="pull-right" style="margin-bottom: 10px;">
-                <button v-bind:disabled="processing"
-                        v-on:click="save"
-                        class="btn btn-primary btn-sm">Save
-                </button>
-                <a class="btn btn-warning btn-sm" href="/admin/articles">Back</a>
-            </div>
+            <h1>Login</h1>
 
-            <form action="/admin/articles/save" method="post" v-on:submit.prevent="save">
-
-                <input type="hidden" name="id" value="" v-model="article.id" />
+            <form action="/session/login" method="post" v-on:submit.prevent="login">
 
                 <div class="form-group">
-                    <label>Title</label>
-                    <input class="form-control" type="text" name="title" value="" v-model="article.title" />
+                    <label>Email</label>
+                    <input class="form-control" 
+                           required
+                           v-model="form.email"
+                           type="text" name="email" value="" />
                 </div>
 
                 <div class="form-group">
-                    <label>Body</label>
-                    <textarea class="form-control" name="body" v-model="article.body"></textarea>
+                    <label>Password</label>
+                    <input class="form-control" 
+                           required
+                           v-model="form.password"
+                           type="password" name="password" value="" />
                 </div>
                 
-                <div class="alert alert-success" v-show="success" v-cloak>Saved</div>
-                <div class="alert alert-danger" v-show="error" v-text="error" v-cloak></div>
+                <div class="alert alert-success" 
+                     v-show="success" v-cloak>Login Successful</div>
+                <div class="alert alert-danger" 
+                     v-show="error" v-text="error" v-cloak></div>
 
                 <button type="submit" 
                         v-bind:disabled="processing"
-                        class="btn btn-primary btn-sm">Save
+                        class="btn btn-primary btn-sm">Login
                 </button>
-                <a class="btn btn-warning btn-sm" href="/admin/articles">Back</a>
+                <a class="btn btn-warning btn-sm" 
+                   href="javascript: window.history.back()">Cancel</a>
             </form>
         </div>
         
@@ -57,10 +56,9 @@
                 el: '#app',
 
                 data: {
-                    article: {
-                        id: '{{ article.id }}',
-                        title: '{{ article.title }}',
-                        body: '{{ article.body }}'
+                    form: {
+                        email: '{{ email }}',
+                        password: ''
                     },
                     processing: false,
                     success: false,
@@ -68,19 +66,19 @@
                 },
 
                 methods: {
-                    save: function(e) {
+                    login: function(e) {
                         
                         var v = this;
                         v.processing = true;
                         v.success = false;
                         v.error = false;
                         
-                        v.$http.post("/admin/articles/save", v.article)
+                        v.$http.post("/session/login", v.form)
                         .then((res) => {
                             v.processing = false;
                             if (res.body && res.body.success) {
                                 v.success = true;
-                                window.location.href = "/admin/articles";
+                                window.location.href = "{{ redirect }}";
                             } else {
                                 v.error = res.body.error;
                             }

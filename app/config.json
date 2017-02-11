@@ -1,16 +1,26 @@
 {
     "http": {
-        "port": 8000
+        "port": 8000,
+        "not_found_controller": "NotFound"
+    },
+    "encrypt": {
+        "salt_rounds": 10,
+        "salt": "$2a$10$PW5kLAUpQRJnxRy12pXmsu"
     },
     "sessions": {
         "secret": "Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD",
         "files": "./storage/sessions",
-        "encrypt": true
+        "encrypt": true,
+        "login_route": "/session/login",
+        "login_redirect": "/"
     },
     "routes": [
         
-        { "path": "^\/$", "controller": "Homepage" },
-        { "path": "^\/assets\/(.+)$", "controller": "Assets" },
+        { "path": "^\/$", "controller": "Homepage", "guest": true },
+        { "path": "^\/assets\/(.+)$", "controller": "Assets", "guest": true },
+        
+        { "path": "^\/session\/login$", "controller": "session/Login", "guest": true },
+        { "path": "^\/session\/logout$", "controller": "session/Logout" },
         
         { "path": "^\/admin$", "controller": "admin/Index" },
         
@@ -19,11 +29,20 @@
         { "path": "^\/admin\/articles\/save", "controller": "articles/Save" },
         { "path": "^\/admin\/articles\/del/([0-9]+)$", "controller": "articles/Delete" },
         
-        { "path": "^\/(.+)$", "controller": "articles/Display" }
+        { "path": "^\/admin\/users$", "controller": "users/Index" },
+        { "path": "^\/admin\/users\/form/([0-9]+)$", "controller": "users/Form" },
+        { "path": "^\/admin\/users\/save", "controller": "users/Save" },
+        { "path": "^\/admin\/users\/del/([0-9]+)$", "controller": "users/Delete" },
+        
+        { "path": "^\/(.+)$", "controller": "articles/Display", "guest": true }
         
     ],
     "db": {
         "type": "sqlite3",
         "filename": "./storage/database/db.sqlite"
+    },
+    "templates": {
+        "default_path": "./resources/views/",
+        "ext": ".html"
     }
 }

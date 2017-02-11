@@ -1,13 +1,23 @@
 
+const bcrypt = require('bcrypt');
 const url = require('url');
 const fs = require('fs');
 const T = require('handlebars');
 var NodeSession = require('node-session');
 
+/**
+ * Mini framework
+ * 
+ * @param {array} config
+ * @returns {nm$_Mini.Mini}
+ */
 function Mini(config) {
     
     self = this;
     this.db = null;
+    
+    // Track all sessions
+    var sessions = {};
     
     // Init session
     session = new NodeSession(config.sessions);
@@ -24,10 +34,9 @@ function Mini(config) {
         // Start session
         session.startSession(req, res, () => {
             
-            //console.log(req.session.getId());
+            self.initSession(req);
             self.dispatch(req, res);
         });
-        
     };
     
     // Dispatch request
@@ -42,6 +51,17 @@ function Mini(config) {
             re = new RegExp(config.routes[i].path);
             if (!found && re.test(req.url)) {
                 found = true;
+                
+                // Validate guest
+                if (!config.routes[i].guest && !req.session.get('logged')) {
+                    
+                    // Redirect to login route
+                    res.writeHead(301, { Location: config.sessions.login_route });
+                    res.end();
+                    return;
+                }
+                
+                // Get controller
                 params = self.getUrlParams(req, re);
                 controller = require('./app/controller/' + config.routes[i].controller);
             }
@@ -49,7 +69,7 @@ function Mini(config) {
         
         // Not Found
         if (!found) {
-            controller = require('./app/controller/NotFound');
+            controller = require('./app/controller/' + config.http.not_found_controller);
         }
         
         // Dispatch
@@ -57,6 +77,17 @@ function Mini(config) {
         instance.action(params);
     };
     
+    // Init session
+    this.initSession = (req) => {
+        if (typeof sessions["_" + req.session.getId()] === 'undefined') {
+            sessions["_" + req.session.getId()] = {
+                logged: false
+            };
+            req.session.set('logged', false);
+        }
+    };
+    
+    // Get url params
     this.getUrlParams = (req, re) => {
         var result = re.exec(req.url);
         result.shift();
@@ -68,7 +99,9 @@ function Mini(config) {
     // Send HTML
     this.sendHTML = (res, template, data) => {
         
-        template = './resources/views/' + template + '.html';
+        template = config.templates.default_path 
+                + template 
+                + config.templates.ext ;
         fs.readFile(template, 'utf8', (err, content) => {
             
             // Send 404
@@ -93,6 +126,39 @@ function Mini(config) {
     // Send static file
     this.sendFile = (res, filename) => {
         fs.createReadStream(filename).pipe(res);
+    };
+    
+    // Encrypt string (app wide)
+    this.encrypt = (string, auto, cb) => {
+        if (auto) {
+            bcrypt.genSalt(config.encrypt.salt_rounds, (err, salt) => {
+                bcrypt.hash(string, salt, cb);
+            });
+        } else {
+            bcrypt.hash(string, config.encrypt.salt, cb);
+        }
+    };
+    
+    // Set session as logged mail
+    this.login = (req, email) => {
+        req.session.set('logged', email);
+        sessions["_" + req.session.getId()].logged = req.session.get('logged');
+    };
+    
+    // Set session as logged out
+    this.logout = (req) => {
+        req.session.set('logged', false);
+        sessions["_" + req.session.getId()].logged = req.session.get('logged');
+    };
+    
+    // Get logged key
+    this.getLogged = (req) => {
+        return req.session.get('logged');
+    };
+    
+    // Get config
+    this.getConfig = () => {
+        return config;
     };
 };
 

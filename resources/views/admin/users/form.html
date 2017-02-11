@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Edit Article</title>
+        <title>Edit User</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -12,28 +12,46 @@
     </head>
     <body>
         <div class="container" id="app">
-            <h1>Edit Article</h1>
+            <h1>Edit User</h1>
             
             <div class="pull-right" style="margin-bottom: 10px;">
                 <button v-bind:disabled="processing"
                         v-on:click="save"
                         class="btn btn-primary btn-sm">Save
                 </button>
-                <a class="btn btn-warning btn-sm" href="/admin/articles">Back</a>
+                <a class="btn btn-warning btn-sm" href="/admin/users">Back</a>
             </div>
 
-            <form action="/admin/articles/save" method="post" v-on:submit.prevent="save">
+            <form action="/admin/users/save" method="post" v-on:submit.prevent="save">
 
-                <input type="hidden" name="id" value="" v-model="article.id" />
+                <input type="hidden" name="id" value="" v-model="user.id" />
 
                 <div class="form-group">
-                    <label>Title</label>
-                    <input class="form-control" type="text" name="title" value="" v-model="article.title" />
+                    <label>Username</label>
+                    <input class="form-control" 
+                           v-model="user.username"
+                           type="text" name="username" value="" />
                 </div>
-
+                
                 <div class="form-group">
-                    <label>Body</label>
-                    <textarea class="form-control" name="body" v-model="article.body"></textarea>
+                    <label>Email</label>
+                    <input class="form-control" 
+                           v-model="user.email"
+                           type="text" name="email" value="" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" 
+                           v-model="user.password"
+                           type="password" name="password" value="" />
+                </div>
+                
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input class="form-control" 
+                           v-model="user.password_confirm"
+                           type="password" name="password_confirm" value="" />
                 </div>
                 
                 <div class="alert alert-success" v-show="success" v-cloak>Saved</div>
@@ -43,7 +61,7 @@
                         v-bind:disabled="processing"
                         class="btn btn-primary btn-sm">Save
                 </button>
-                <a class="btn btn-warning btn-sm" href="/admin/articles">Back</a>
+                <a class="btn btn-warning btn-sm" href="/admin/users">Back</a>
             </form>
         </div>
         
@@ -57,10 +75,11 @@
                 el: '#app',
 
                 data: {
-                    article: {
-                        id: '{{ article.id }}',
-                        title: '{{ article.title }}',
-                        body: '{{ article.body }}'
+                    user: {
+                        id: '{{ user.id }}',
+                        username: '{{ user.username }}',
+                        email: '{{ user.email }}',
+                        password: ''
                     },
                     processing: false,
                     success: false,
@@ -75,12 +94,12 @@
                         v.success = false;
                         v.error = false;
                         
-                        v.$http.post("/admin/articles/save", v.article)
+                        v.$http.post("/admin/users/save", v.user)
                         .then((res) => {
                             v.processing = false;
                             if (res.body && res.body.success) {
                                 v.success = true;
-                                window.location.href = "/admin/articles";
+                                window.location.href = "/admin/users";
                             } else {
                                 v.error = res.body.error;
                             }

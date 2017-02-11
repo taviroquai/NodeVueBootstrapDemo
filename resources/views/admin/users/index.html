@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Admin Articles</title>
+        <title>Admin Users</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -13,33 +13,39 @@
     <body>
         
         <div class="container" id="app">
-            <h1>Admin Articles</h1>
+            <h1>Admin Users</h1>
             
             <a href="/admin" 
                class="btn btn-success btm-sm">Back</a>
         
-            <a href="/admin/articles/form/0" 
+            <a href="/admin/users/form/0" 
                style="margin-bottom: 10px"
                v-bind:disabled="processing"
                class="btn btn-primary btm-sm pull-right">New</a>
             <table class="table table-striped">
                 <thead>
-                    <tr><th>ID</th><th>Title</th><th style="width: 130px"></th></tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th style="width: 130px"></th>
+                    </tr>
                 </thead>
                 <tbody>
-                    {{#each articles }}
+                    {{#each users }}
                     <tr>
                         <td>{{ id }}</td>
-                        <td>{{ title }}</td>
+                        <td>{{ username }}</td>
+                        <td>{{ email }}</td>
                         <td>
                             <a class="btn btn-warning btn-sm"
                                v-bind:disabled="processing"
-                               href="/admin/articles/form/{{ id }}">edit</a>
+                               href="/admin/users/form/{{ id }}">edit</a>
                             &nbsp;
                             <a class="btn btn-danger btn-sm"
                                v-bind:disabled="processing"
                                v-on:click.prevent="del"
-                               href="/admin/articles/del/{{ id }}">del</a>
+                               href="/admin/users/del/{{ id }}">del</a>
                         </td>
                     </tr>
                     {{/each }}

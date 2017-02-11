@@ -26,8 +26,8 @@ Model.prototype.findAll = function(cb) {
 // Find by field
 Model.prototype.findBy = function(field, value, cb) {
     var sql = "SELECT * FROM " + this.table 
-            + " WHERE " + field + " = " + value;
-    this.app.db.all(sql, cb);
+            + " WHERE " + field + " = ?";
+    this.app.db.all(sql, [value], cb);
 };
 
 // Find by pkey

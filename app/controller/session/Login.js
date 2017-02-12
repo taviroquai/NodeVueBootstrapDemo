@@ -16,7 +16,7 @@ function Login(app, req, res) {
         // Response data
         const data = {
             success: false,
-            redirect: app.getConfig().sessions.login_redirect
+            redirect: req.session.get('login_redirect')
         };
         
         if (req.method == 'POST') {

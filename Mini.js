@@ -52,13 +52,23 @@ function Mini(config) {
             if (!found && re.test(req.url)) {
                 found = true;
                 
-                // Validate guest
+                // Redirect guest
                 if (!config.routes[i].guest && !req.session.get('logged')) {
                     
+                    // Save redirect on session
+                    req.session.set('login_redirect', req.url);
+                    
                     // Redirect to login route
-                    res.writeHead(301, { Location: config.sessions.login_route });
+                    res.writeHead(302, {
+                        Location: config.sessions.login_route
+                    });
                     res.end();
                     return;
+                }
+                
+                // Set default redirect (avoid redirect loop)
+                if (req.url === req.session.set('login_redirect')) {
+                    req.session.set('login_redirect', config.sessions.login_redirect);
                 }
                 
                 // Get controller
@@ -75,16 +85,6 @@ function Mini(config) {
         // Dispatch
         instance = new controller(self, req, res);
         instance.action(params);
-    };
-    
-    // Init session
-    this.initSession = (req) => {
-        if (typeof sessions["_" + req.session.getId()] === 'undefined') {
-            sessions["_" + req.session.getId()] = {
-                logged: false
-            };
-            req.session.set('logged', false);
-        }
     };
     
     // Get url params
@@ -139,6 +139,21 @@ function Mini(config) {
         }
     };
     
+    // Init request session
+    this.initSession = (req) => {
+        if (typeof sessions["_" + req.session.getId()] === 'undefined') {
+            sessions["_" + req.session.getId()] = {
+                logged: false
+            };
+            req.session.set('logged', false);
+            
+            // Set default login redirect
+            typeof req.session.get('login_redirect') === 'undefined' ? 
+                req.session.set('login_redirect', config.sessions.login_redirect)
+                : false;
+        }
+    };
+    
     // Set session as logged mail
     this.login = (req, email) => {
         req.session.set('logged', email);
@@ -148,7 +163,8 @@ function Mini(config) {
     // Set session as logged out
     this.logout = (req) => {
         req.session.set('logged', false);
-        sessions["_" + req.session.getId()].logged = req.session.get('logged');
+        //sessions["_" + req.session.getId()].logged = req.session.get('logged');
+        delete sessions["_" + req.session.getId()];
     };
     
     // Get logged key

@@ -66,11 +66,6 @@ function Mini(config) {
                     return;
                 }
                 
-                // Set default redirect (avoid redirect loop)
-                if (req.url === req.session.set('login_redirect')) {
-                    req.session.set('login_redirect', config.sessions.login_redirect);
-                }
-                
                 // Get controller
                 params = self.getUrlParams(req, re);
                 controller = require('./app/controller/' + config.routes[i].controller);
@@ -163,7 +158,6 @@ function Mini(config) {
     // Set session as logged out
     this.logout = (req) => {
         req.session.set('logged', false);
-        //sessions["_" + req.session.getId()].logged = req.session.get('logged');
         delete sessions["_" + req.session.getId()];
     };
     

@@ -20,7 +20,9 @@ function Index(app, req, res) {
             
             // Send response
             data.users = rows;
-            app.sendHTML(res, 'admin/users/index', data);
+            app.loadPartial('content', 'admin/users/index', () => {
+                app.sendHTML(res, 'admin/users/index_layout', data);
+            });
         });
     };
 };

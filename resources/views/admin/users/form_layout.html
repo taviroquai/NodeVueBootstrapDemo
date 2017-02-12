@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit User</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="shortcut icon" href="/assets/favicon.ico">
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+        <style>
+            .thumbnail { max-height: 240px; max-width: 240px; }
+        </style>
+
+    </head>
+    <body>
+        
+        {{> content }}
+        
+        <script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+        <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/assets/js/vue.js"></script>
+        <script src="/assets/js/vue-resource.js"></script>
+        <script src="/assets/js/admin/users/form.js"></script>
+        <script>
+            form.data.action = '/admin/users/save';
+            form.data.redirect = '/admin/users';
+            form.data.avatar_uri = '/avatar/';
+            form.data.user = {
+                id: '{{ user.id }}',
+                username: '{{ user.username }}',
+                email: '{{ user.email }}',
+                password: '',
+                image: '{{ user.image }}',
+                image_upload: ''
+            };
+            var vm = new Vue(form);
+        </script>
+    </body>
+</html>

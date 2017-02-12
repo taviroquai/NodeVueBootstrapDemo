@@ -91,6 +91,20 @@ function Mini(config) {
         return result;
     };
     
+    // Load HTML partial
+    this.loadPartial = (name, template, cb) => {
+        
+        template = config.templates.default_path 
+                + template 
+                + config.templates.ext ;
+        fs.readFile(template, 'utf8', (err, content) => {
+            
+            if (err) return '';
+            T.registerPartial(name, content);
+            cb(err, content);
+        });
+    };
+    
     // Send HTML
     this.sendHTML = (res, template, data) => {
         

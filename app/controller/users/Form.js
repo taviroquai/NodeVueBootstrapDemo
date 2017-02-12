@@ -22,7 +22,9 @@ function Form(app, req, res) {
             data.user = record;
             
             // Send response
-            app.sendHTML(res, 'admin/users/form', data);
+            app.loadPartial('content', 'admin/users/form', () => {
+                app.sendHTML(res, 'admin/users/form_layout', data);
+            });
         });
     };
 };

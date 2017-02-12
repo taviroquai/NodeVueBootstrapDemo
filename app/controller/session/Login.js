@@ -5,10 +5,14 @@ const formidable = require('formidable');
 // Load models
 const UserModel = require('../../model/User');
 
+// Load View
+const LoginView = require('../../view/LoginView');
+
 // Controller
 function Login(app, req, res) {
     
     const users = new UserModel(app);
+    const view = new LoginView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -49,7 +53,9 @@ function Login(app, req, res) {
         } else {
         
             // Send login page
-            app.sendHTML(res, 'login', data);
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
+            });
         }
     };
 };

@@ -2,7 +2,6 @@
 const bcrypt = require('bcrypt');
 const url = require('url');
 const fs = require('fs');
-const T = require('handlebars');
 var NodeSession = require('node-session');
 
 /**
@@ -91,39 +90,12 @@ function Mini(config) {
         return result;
     };
     
-    // Load HTML partial
-    this.loadPartial = (name, template, cb) => {
-        
-        template = config.templates.default_path 
-                + template 
-                + config.templates.ext ;
-        fs.readFile(template, 'utf8', (err, content) => {
-            
-            if (err) return '';
-            T.registerPartial(name, content);
-            cb(err, content);
-        });
-    };
-    
     // Send HTML
-    this.sendHTML = (res, template, data) => {
+    this.sendHTML = (res, html) => {
         
-        template = config.templates.default_path 
-                + template 
-                + config.templates.ext ;
-        fs.readFile(template, 'utf8', (err, content) => {
-            
-            // Send 404
-            if (err) {
-                res.writeHead(404, {"Content-Type": "text/html"});
-                return console.log(err);
-            }
-
-            // Response from template
-            res.writeHead(200, {"Content-Type": "text/html"});
-            const html = T.compile(content);
-            res.end(html(data));
-        });
+        // Response from template
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.end(html);
     };
     
     // Send JSON

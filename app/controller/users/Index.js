@@ -1,11 +1,14 @@
-
 // Load models
 const UserModel = require('../../model/User');
+
+// Load View
+const IndexView = require('../../view/admin/users/IndexView');
 
 // Controller
 function Index(app, req, res) {
     
     const users = new UserModel(app);
+    const view = new IndexView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -17,11 +20,11 @@ function Index(app, req, res) {
         };
         
         users.findAll((err, rows) => {
+            data.users = rows;
             
             // Send response
-            data.users = rows;
-            app.loadPartial('content', 'admin/users/index', () => {
-                app.sendHTML(res, 'admin/users/index_layout', data);
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
             });
         });
     };

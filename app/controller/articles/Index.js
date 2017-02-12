@@ -2,10 +2,14 @@
 // Load models
 const ArticleModel = require('../../model/Article');
 
+// Load View
+const IndexView = require('../../view/admin/articles/IndexView');
+
 // Controller
 function Index(app, req, res) {
     
     const articles = new ArticleModel(app);
+    const view = new IndexView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -17,11 +21,11 @@ function Index(app, req, res) {
         };
         
         articles.findAll((err, rows) => {
+            data.articles = rows;
             
             // Send response
-            data.articles = rows;
-            app.loadPartial('content', 'admin/articles/index', () => {
-                app.sendHTML(res, 'admin/articles/index_layout', data);
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
             });
         });
     };

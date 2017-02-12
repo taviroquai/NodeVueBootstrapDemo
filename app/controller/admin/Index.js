@@ -1,23 +1,24 @@
 
-// Load Models
-const ArticleModel = require('../../model/Article');
+// Load View
+const IndexView = require('../../view/admin/IndexView');
 
 // Controller
 function Index(app, req, res) {
     
-    const articles = new ArticleModel(app);
+    const view = new IndexView(app);
     
     // HTTP action
     this.action = (params) => {
         
         // Response data
         const data = {
-            success: true,
             title: 'Admin'
         };
         
         // Send response
-        app.sendHTML(res, 'admin/index', data);
+        view.render(data, (html) => {
+            app.sendHTML(res, html);
+        });
     };
 };
 

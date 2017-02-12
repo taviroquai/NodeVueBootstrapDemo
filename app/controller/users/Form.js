@@ -2,10 +2,14 @@
 // Load models
 const UserModel = require('../../model/User');
 
+// Load View
+const FormView = require('../../view/admin/users/FormView');
+
 // Controller
 function Form(app, req, res) {
     
     const users = new UserModel(app);
+    const view = new FormView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -13,7 +17,6 @@ function Form(app, req, res) {
         // Response data
         const data = {
             success: true,
-            params: params,
             user: {}
         };
         
@@ -22,8 +25,8 @@ function Form(app, req, res) {
             data.user = record;
             
             // Send response
-            app.loadPartial('content', 'admin/users/form', () => {
-                app.sendHTML(res, 'admin/users/form_layout', data);
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
             });
         });
     };

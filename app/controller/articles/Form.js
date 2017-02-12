@@ -2,10 +2,14 @@
 // Load models
 const ArticleModel = require('../../model/Article');
 
+// Load View
+const FormView = require('../../view/admin/articles/FormView');
+
 // Controller
 function Form(app, req, res) {
     
     const articles = new ArticleModel(app);
+    const view = new FormView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -13,7 +17,6 @@ function Form(app, req, res) {
         // Response data
         const data = {
             success: true,
-            params: params,
             article: false
         };
         
@@ -22,8 +25,8 @@ function Form(app, req, res) {
             data.article = record;
             
             // Send response
-            app.loadPartial('content', 'admin/articles/form', () => {
-                app.sendHTML(res, 'admin/articles/form_layout', data);
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
             });
         });
     };

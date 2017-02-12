@@ -26,7 +26,7 @@ function Save(app, req, res) {
 
             input.parse(req, (err, fields, files) => {
                 
-                // Load article if 
+                // Load article or new
                 id = fields[articles.pkey] === '' ? 0 : fields[articles.pkey];
                 articles.findOrNew(id, (err, record) => {
 

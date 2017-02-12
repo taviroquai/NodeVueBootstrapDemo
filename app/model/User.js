@@ -1,4 +1,7 @@
 
+// Require fs
+const fs = require("fs");
+
 // require Model
 const Model = require('./Model');
 
@@ -12,6 +15,7 @@ function User(app) {
     var self = this;
     this.table = 'users';
     this.pkey = 'id';
+    this.timestamps = false;
     this.fill = ['username', 'email'];
     this.template = {
         id: '',
@@ -38,7 +42,18 @@ function User(app) {
         );
 
         // SQL UPDATES
-        
+        self.app.db.all("PRAGMA table_info(users)", (err, rows) => {
+            
+            // Add image column
+            var exists_image = false;
+            for(var i = 0; i < rows.length; i++)
+                if (rows[i].name === 'image')
+                    exists_image = true;
+            if (!exists_image) {
+                self.app.db.run("ALTER TABLE users ADD COLUMN image VARCHAR(255)");
+            }
+        });
+
     });
 }
 
@@ -52,7 +67,7 @@ User.prototype.findByLogin = function(email, password, cb) {
 };
 
 // Update password
-Model.prototype.updatePassword = function(record, password, cb) {
+User.prototype.updatePassword = function(record, password, cb) {
 
     var sql = "UPDATE " + this.table 
             + " SET password = ?"
@@ -62,6 +77,55 @@ Model.prototype.updatePassword = function(record, password, cb) {
     values.push(record.id);
     
     this.app.db.run(sql, values, cb);
+};
+
+// Validate base64 image
+User.prototype.validateBase64Image = function(base64str) {
+    var ext = false;
+    if (base64str.indexOf('image/png')) {
+        ext = 'png';
+    } else if (base64str.indexOf('image/jpeg')) {
+        ext = 'jpeg';
+    } else if (base64str.indexOf('image/jpg')) {
+        ext = 'jpg';
+    } else if (base64str.indexOf('image/gif')) {
+        ext = 'gif';
+    }
+    return ext;
+};
+
+// Upload image
+User.prototype.uploadImage = function(base64str, target, name, cb) {
+    
+    var ext = this.validateBase64Image(base64str);
+    var regex = new RegExp("^data:image/" + ext + ";base64,");
+    base64str = base64str.replace(regex, "");
+    
+    fs.mkdir(target, (err) => {
+        fs.writeFile(target + name + "." + ext, base64str, 'base64', (err) => {
+            typeof cb === 'function' ? cb(err, ext) : false;
+        });
+    });
+    
+};
+
+// Update image
+User.prototype.updateImage = function(record, filename, cb) {
+    
+    // Update database
+    var sql = "UPDATE " + this.table 
+        + " SET image = ?"
+        + " WHERE " + this.pkey + " = ?";
+    var values = [];
+    values.push(filename);
+    values.push(record.id);
+    this.app.db.run(sql, values, cb);
+};
+
+// Remove image
+User.prototype.removeImage = function(filename, cb) {
+    
+    fs.unlink(filename, cb);
 };
 
 module.exports = User;

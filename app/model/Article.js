@@ -12,6 +12,7 @@ function Article(app) {
     var self = this;
     this.table = 'articles';
     this.pkey = 'id';
+    this.timestamps = true;
     this.fill = ['title', 'body'];
     this.template = {
         id: '',

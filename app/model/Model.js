@@ -5,6 +5,7 @@ function Model(app) {
     this.app = app;
     this.table = 'table_name';
     this.pkey = 'pkey';
+    this.timestamps = false;
     this.fill = [];
     this.template = {
         pkey: ''
@@ -32,18 +33,24 @@ Model.prototype.findBy = function(field, value, cb) {
 
 // Find by pkey
 Model.prototype.find = function(id, cb) {
-    this.findBy(this.pkey, id, cb);
+    this.findBy(this.pkey, id, (err, rows) => {
+        if (rows.length === 0) {
+            cb(err, false);
+        } else {
+            cb(err, rows[0]);
+        }
+    });
 };
     
 // Find by pkey or new
 Model.prototype.findOrNew = function(id, cb) {
     var self = this;
-    this.find(id, (err, rows) => {
+    this.find(id, (err, record) => {
         if (err) cb(err, self.template);
-        if (rows.length === 0) {
+        if (!record) {
             cb(err, self.template);
         } else {
-            cb(err, rows[0]);
+            cb(err, record);
         }
     });
 };
@@ -57,9 +64,15 @@ Model.prototype.insert = function(data, cb) {
         sql_params.push('?');
         values.push(data[this.fill[i]]);
     }
-    sql = "INSERT INTO " + this.table 
-            + " (" + this.fill.join(',') + ")"
-            + " VALUES (" + sql_params.join(',') + ")";
+    if (this.timestamps) {
+        sql = "INSERT INTO " + this.table 
+                + " (" + this.fill.join(',') + ", created_at)"
+                + " VALUES (" + sql_params.join(',') + ", date('now'))";
+    } else {
+        sql = "INSERT INTO " + this.table 
+                + " (" + this.fill.join(',') + ")"
+                + " VALUES (" + sql_params.join(',') + ")";
+    }
     this.app.db.run(sql, values, cb);
 };
     
@@ -73,18 +86,33 @@ Model.prototype.update = function(record, data, cb) {
         values.push(data[this.fill[i]]);
     }
     values.push(record.id);
-    sql = "UPDATE " + this.table 
-            + " SET " + sql_params.join(',') 
-            + " WHERE " + this.pkey + " = ?";
+    if (this.timestamps) {
+        sql = "UPDATE " + this.table 
+                + " SET " + sql_params.join(',') 
+                + ", updated_at = date('now') "
+                + " WHERE " + this.pkey + " = ?";
+    } else {
+        sql = "UPDATE " + this.table 
+                + " SET " + sql_params.join(',') 
+                + " WHERE " + this.pkey + " = ?";
+    }
     this.app.db.run(sql, values, cb);
 };
 
 // Save
 Model.prototype.save = function(record, data, cb) {
+    var sql, self = this;
     if (record[this.pkey] === '' || record[this.pkey] === 0) {
-        this.insert(data, cb);
+        sql = "select seq from sqlite_sequence where name='" + this.table + "'";
+        this.insert(data, (err) => {
+            self.app.db.all(sql, (err, rows) => {
+                self.find(rows[0].seq, cb);
+            });
+        });
     } else {
-        this.update(record, data, cb);
+        this.update(record, data, (err) => {
+            self.find(record[self.pkey], cb);
+        });
     }
 };
 

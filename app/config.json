@@ -18,6 +18,7 @@
         
         { "path": "^\/$", "controller": "Homepage", "guest": true },
         { "path": "^\/assets\/(.+)$", "controller": "Assets", "guest": true },
+        { "path": "^\/avatar\/(.+)/(.+)$", "controller": "Avatar", "guest": true },
         
         { "path": "^\/session\/login$", "controller": "session/Login", "guest": true },
         { "path": "^\/session\/logout$", "controller": "session/Logout" },

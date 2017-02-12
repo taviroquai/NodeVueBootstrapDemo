@@ -17,7 +17,7 @@ function Logout(app, req, res) {
             app.logout(req);
             
             // Send redirect
-            res.writeHead(301, { Location: '/' });
+            res.writeHead(302, { Location: '/' });
             res.end();
             
         });

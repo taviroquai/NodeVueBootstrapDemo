@@ -2,13 +2,12 @@
 const UserModel = require('../../model/User');
 
 // Load View
-const IndexView = require('../../view/admin/users/IndexView');
+const View = require('../../view/View');
 
 // Controller
 function Index(app, req, res) {
     
     const users = new UserModel(app);
-    const view = new IndexView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -23,6 +22,7 @@ function Index(app, req, res) {
             data.users = rows;
             
             // Send response
+            const view = new View(app, 'admin/users/index', 'admin/layout');
             view.render(data, (html) => {
                 app.sendHTML(res, html);
             });

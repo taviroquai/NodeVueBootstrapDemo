@@ -1,11 +1,9 @@
 
 // Load View
-const IndexView = require('../../view/admin/IndexView');
+const View = require('../../view/View');
 
 // Controller
 function Index(app, req, res) {
-    
-    const view = new IndexView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -16,6 +14,7 @@ function Index(app, req, res) {
         };
         
         // Send response
+        const view = new View(app, 'admin/index');
         view.render(data, (html) => {
             app.sendHTML(res, html);
         });

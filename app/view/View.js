@@ -6,12 +6,12 @@ const fs = require("fs");
 const T = require('handlebars');
 
 // Admin Layout
-function View(app) {
+function View(app, template, layout) {
     
     this.app = app;
-    this.layout = false;
-    this.template = '';
-    this.data = {};
+    this.layout = layout;
+    this.template = template;
+    this.T = T;
 };
 
 // Load template
@@ -26,21 +26,13 @@ View.prototype.loadTemplate = function(template, cb) {
     });
 };
 
-// Load HTML partial
-View.prototype.loadPartial = function(name, template, cb) {
-    this.loadTemplate(template, (err, content) => {
-        T.registerPartial(name, content);
-        cb(err);
-    });
-};
-
 // Render HTML
 View.prototype.render = function(data, cb) {
     var html, self = this;
-    
     if (self.layout) {
-        self.loadPartial('content', self.template, (err) => {
-            self.loadTemplate(self.layout, (err, content) => {
+        self.loadTemplate(self.layout, (err, content) => {
+            self.T.registerPartial('layout', content);
+            self.loadTemplate(self.template, (err, content) => {
                 html = T.compile(content);
                 cb(html(data));
             });
@@ -52,5 +44,24 @@ View.prototype.render = function(data, cb) {
         });
     }
 };
+
+// Create pseudo-inheritance in handlbars
+// Thanks https://gist.github.com/Wilfred/715ae4e22642cfff1dbd
+T.loadPartial = function (name) {
+  var partial = T.partials[name];
+  if (typeof partial === "string") {
+    partial = T.compile(partial);
+    T.partials[name] = partial;
+  }
+  return partial;
+};
+T.registerHelper("block", function (name, options) {
+    /* Look for partial by name. */
+    var partial = T.loadPartial(name) || options.fn;
+    return partial(this, { data : options.hash });
+});
+T.registerHelper("partial", function (name, options) {
+    T.registerPartial(name, options.fn);
+});
 
 module.exports = View;

@@ -12,7 +12,6 @@ function IndexView(app) {
     this.template = 'admin/users/index';
     this.layout = 'admin/users/index_layout';
     
-    
 }
 
 IndexView.prototype = Object.create(View.prototype);

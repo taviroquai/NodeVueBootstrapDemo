@@ -3,13 +3,12 @@
 const ArticleModel = require('../../model/Article');
 
 // Load View
-const IndexView = require('../../view/admin/articles/IndexView');
+const View = require('../../view/View');
 
 // Controller
 function Index(app, req, res) {
     
     const articles = new ArticleModel(app);
-    const view = new IndexView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -24,6 +23,7 @@ function Index(app, req, res) {
             data.articles = rows;
             
             // Send response
+            const view = new View(app, 'admin/articles/index', 'admin/layout');
             view.render(data, (html) => {
                 app.sendHTML(res, html);
             });

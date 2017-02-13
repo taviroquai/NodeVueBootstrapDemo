@@ -1,11 +1,9 @@
 
 // Load View
-const HomepageView = require('../view/HomepageView');
+const View = require('../view/View');
 
 // Controller
 function Homepage(app, req, res) {
-    
-    const view = new HomepageView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -18,6 +16,7 @@ function Homepage(app, req, res) {
         };
         
         // Send response
+        const view = new View(app, 'homepage');
         view.render(data, (html) => {
             app.sendHTML(res, html);
         });

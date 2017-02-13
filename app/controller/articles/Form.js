@@ -3,13 +3,12 @@
 const ArticleModel = require('../../model/Article');
 
 // Load View
-const FormView = require('../../view/admin/articles/FormView');
+const View = require('../../view/View');
 
 // Controller
 function Form(app, req, res) {
     
     const articles = new ArticleModel(app);
-    const view = new FormView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -25,6 +24,7 @@ function Form(app, req, res) {
             data.article = record;
             
             // Send response
+            const view = new View(app, 'admin/articles/form', 'admin/layout');
             view.render(data, (html) => {
                 app.sendHTML(res, html);
             });

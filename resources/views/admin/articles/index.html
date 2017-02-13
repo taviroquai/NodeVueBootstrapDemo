@@ -1,4 +1,4 @@
-
+{{#partial "content" }}
 <div class="container" id="app">
     <h1>Admin Articles</h1>
 
@@ -33,3 +33,15 @@
         </tbody>
     </table>
 </div>
+{{/partial }}
+{{#partial "scripts" }}
+<script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/vue.js"></script>
+<script src="/assets/js/vue-resource.js"></script>
+<script src="/assets/js/admin/articles/index.js"></script>
+<script>
+    var vm = new Vue(index);
+</script>
+{{/partial }}
+{{> layout }}

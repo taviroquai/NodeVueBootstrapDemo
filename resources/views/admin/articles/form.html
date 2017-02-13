@@ -1,4 +1,4 @@
-
+{{#partial "content" }}
 <div class="container" id="app">
     <h1>Edit Article</h1>
 
@@ -34,3 +34,24 @@
         <a class="btn btn-warning btn-sm" href="/admin/articles">Back</a>
     </form>
 </div>
+{{/partial }}
+
+{{#partial "scripts" }}
+<script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/vue.js"></script>
+<script src="/assets/js/vue-resource.js"></script>
+<script src="/assets/js/admin/articles/form.js"></script>
+<script>
+    form.data.action = '/admin/articles/save';
+    form.data.redirect = '/admin/articles';
+    form.data.article = {
+        id: '{{ article.id }}',
+        title: '{{ article.title }}',
+        body: '{{ article.body }}'
+    };
+    var vm = new Vue(form);
+</script>
+{{/partial }}
+
+{{> layout }}

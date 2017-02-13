@@ -3,13 +3,12 @@
 const UserModel = require('../../model/User');
 
 // Load View
-const FormView = require('../../view/admin/users/FormView');
+const View = require('../../view/View');
 
 // Controller
 function Form(app, req, res) {
     
     const users = new UserModel(app);
-    const view = new FormView(app);
     
     // HTTP action
     this.action = (params) => {
@@ -25,6 +24,7 @@ function Form(app, req, res) {
             data.user = record;
             
             // Send response
+            const view = new View(app, 'admin/users/form', 'admin/layout');
             view.render(data, (html) => {
                 app.sendHTML(res, html);
             });

@@ -1,4 +1,7 @@
 
+// Load View
+const View = require('../view/View');
+
 function NotFound(app, req, res) {
     
     this.action = (params) => {
@@ -6,8 +9,12 @@ function NotFound(app, req, res) {
         const data = {
             success: true
         };
-
-        app.sendHTML(res, './client/notfound.html', data);
+        
+        // Send response
+        const view = new View(app, 'notfound');
+        view.render(data, (html) => {
+            app.sendHTML(res, html);
+        });
         
     };
 }

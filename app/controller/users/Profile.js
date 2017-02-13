@@ -22,7 +22,10 @@ function Profile(app, req, res) {
             data.user = row;
             
             // Send response
-            app.sendHTML(res, 'admin/users/profile', data);
+            const view = new View(app, 'admin/users/profile', 'admin/layout');
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
+            });
         });
     };
 };

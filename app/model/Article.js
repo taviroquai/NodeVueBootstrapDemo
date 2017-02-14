@@ -1,4 +1,6 @@
 
+"use strict";
+
 // require Model
 const Model = require('../../src/Model');
 

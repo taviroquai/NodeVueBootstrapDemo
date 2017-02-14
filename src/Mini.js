@@ -1,9 +1,13 @@
 
+"use strict";
+
+// Load dependencies
 const bcrypt = require('bcrypt');
 const url = require('url');
 const fs = require('fs');
 const http = require('http');
 const NodeSession = require('node-session');
+const View = require('./View');
 
 /**
  * Mini framework
@@ -13,14 +17,16 @@ const NodeSession = require('node-session');
  */
 function Mini(config) {
     
-    self = this;
+    var self = this,
+        
+        // Track all sessions
+        sessions = {},
+                
+        // Init session handler
+        session = new NodeSession(config.sessions);
+        
+    // Init database
     this.db = null;
-    
-    // Track all sessions
-    var sessions = {};
-    
-    // Init session
-    session = new NodeSession(config.sessions);
     
     // Init database
     if (config.db.type === 'sqlite3') {
@@ -105,6 +111,20 @@ function Mini(config) {
         return result;
     };
     
+    // Make view
+    this.getView = (template, layout) => {
+        return new View(this, template, layout);
+    };
+    
+    // Render HTML
+    this.render = (res, data, template, layout) => {
+        var self = this;
+        const view = self.getView(template, layout);
+        view.render(data, (html) => {
+            self.sendHTML(res, html);
+        });
+    };
+    
     // Send HTML
     this.sendHTML = (res, html) => {
         
@@ -170,6 +190,21 @@ function Mini(config) {
     // Get config
     this.getConfig = () => {
         return config;
+    };
+    
+    // Validate base64 image
+    this.validateBase64Image = (base64str) => {
+        var ext = false;
+        if (base64str.indexOf('image/png')) {
+            ext = 'png';
+        } else if (base64str.indexOf('image/jpeg')) {
+            ext = 'jpeg';
+        } else if (base64str.indexOf('image/jpg')) {
+            ext = 'jpg';
+        } else if (base64str.indexOf('image/gif')) {
+            ext = 'gif';
+        }
+        return ext;
     };
 };
 

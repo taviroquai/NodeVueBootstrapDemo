@@ -1,7 +1,7 @@
 
-// Load View
-const View = require('../src/View');
+"use strict";
 
+// Not Found controller
 function NotFound(app, req, res) {
     
     this.action = (params) => {
@@ -11,10 +11,7 @@ function NotFound(app, req, res) {
         };
         
         // Send response
-        const view = new View(app, 'notfound');
-        view.render(data, (html) => {
-            app.sendHTML(res, html);
-        });
+        app.render(res, data, 'notfound');
         
     };
 }

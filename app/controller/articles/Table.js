@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Load models
 const ArticleModel = require('../../model/Article');
 

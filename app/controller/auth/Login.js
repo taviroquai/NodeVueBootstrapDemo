@@ -1,12 +1,11 @@
 
+"use strict";
+
 // Load form parser
 const formidable = require('formidable');
 
 // Load models
 const UserModel = require('../../model/User');
-
-// Load View
-const View = require('../../../src/View');
 
 // Controller
 function Login(app, req, res) {
@@ -24,7 +23,7 @@ function Login(app, req, res) {
         
         if (req.method == 'POST') {
             
-            input = new formidable.IncomingForm();
+            const input = new formidable.IncomingForm();
 
             input.parse(req, (err, fields, files) => {
                 
@@ -52,10 +51,7 @@ function Login(app, req, res) {
         } else {
         
             // Send response
-            const view = new View(app, 'login');
-            view.render(data, (html) => {
-                app.sendHTML(res, html);
-            });
+            app.render(res, data, 'auth/login');
         }
     };
 };

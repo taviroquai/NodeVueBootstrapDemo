@@ -1,8 +1,8 @@
+
+"use strict";
+
 // Load models
 const UserModel = require('../../model/User');
-
-// Load View
-const View = require('../../../src/View');
 
 // Controller
 function Index(app, req, res) {
@@ -22,10 +22,8 @@ function Index(app, req, res) {
             data.users = rows;
             
             // Send response
-            const view = new View(app, 'admin/users/index', 'admin/layout');
-            view.render(data, (html) => {
-                app.sendHTML(res, html);
-            });
+            app.render(res, data, 'admin/users/index', 'admin/layout');
+            
         });
     };
 };

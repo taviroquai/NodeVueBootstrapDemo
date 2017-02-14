@@ -1,34 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Admin</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link rel="shortcut icon" href="/assets/favicon.ico">
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
-        
-    </head>
-    <body>
-        
-        <div class="container" id="app">
-            <h1>Admin</h1>
-            
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="/session/logout"
-                        class="btn btn-danger btm-sm pull-right">Logout</a>
-                     <a href="/"
-                        class="btn btn-primary btm-sm pull-right">Homepage</a>
-                </div>
-            </div>
-               
-            <div class="list-group">
-                <a class="list-group-item" href="/admin/articles">Articles</a>
-                <a class="list-group-item" href="/admin/users">Users</a>
-            </div>
+{{#partial "content" }}        
+<div class="container" id="app">
+    <h1>Admin</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/auth/logout"
+                class="btn btn-danger btm-sm pull-right">Logout</a>
+             <a href="/"
+                class="btn btn-primary btm-sm pull-right">Homepage</a>
         </div>
-        
-    </body>
-</html>
+    </div>
+
+    <div class="list-group">
+        <a class="list-group-item" href="/admin/articles">Articles</a>
+        <a class="list-group-item" href="/admin/users">Users</a>
+    </div>
+</div>
+{{/partial }}
+{{> layout }}

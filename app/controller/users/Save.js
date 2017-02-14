@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Load dependencies
 const formidable = require('formidable');
         
@@ -35,7 +37,7 @@ function Save(app, req, res) {
                 }
                 
                 // Validate image
-                if (fields.image_upload !== '' && !users.validateBase64Image(fields.image_upload)) {
+                if (fields.image_upload !== '' && !app.validateBase64Image(fields.image_upload)) {
                     data.success = false;
                     data.error = 'Invalid image';
                     app.sendJSON(res, data);

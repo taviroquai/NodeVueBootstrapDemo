@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Load models
 const UserModel = require('../../model/User');
 

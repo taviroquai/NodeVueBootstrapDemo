@@ -1,9 +1,8 @@
 
+"use strict";
+
 // Load models
 const ArticleModel = require('../../model/Article');
-
-// Load View
-const View = require('../../../src/View');
 
 // Controller
 function Form(app, req, res) {
@@ -24,10 +23,8 @@ function Form(app, req, res) {
             data.article = record;
             
             // Send response
-            const view = new View(app, 'admin/articles/form', 'admin/layout');
-            view.render(data, (html) => {
-                app.sendHTML(res, html);
-            });
+            app.render(res, data, 'admin/articles/form', 'admin/layout');
+            
         });
     };
 };

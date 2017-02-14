@@ -14,7 +14,7 @@
         <div class="container" id="app">
             <h1>Login</h1>
 
-            <form action="/session/login" method="post" v-on:submit.prevent="login">
+            <form action="" method="post" v-on:submit.prevent="login">
 
                 <div class="form-group">
                     <label>Email</label>
@@ -73,7 +73,7 @@
                         v.success = false;
                         v.error = false;
                         
-                        v.$http.post("/session/login", v.form)
+                        v.$http.post("/auth/login", v.form)
                         .then((res) => {
                             v.processing = false;
                             if (res.body && res.body.success) {

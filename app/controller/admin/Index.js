@@ -1,6 +1,5 @@
 
-// Load View
-const View = require('../../../src/View');
+"use strict";
 
 // Controller
 function Index(app, req, res) {
@@ -14,10 +13,7 @@ function Index(app, req, res) {
         };
         
         // Send response
-        const view = new View(app, 'admin/index');
-        view.render(data, (html) => {
-            app.sendHTML(res, html);
-        });
+        app.render(res, data, 'admin/index', 'admin/layout');
     };
 };
 

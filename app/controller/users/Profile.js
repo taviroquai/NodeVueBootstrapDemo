@@ -1,9 +1,8 @@
 
+"use strict";
+
 // Load models
 const usersModel = require('../../model/User');
-
-// Load View
-const View = require('../../../src/View');
 
 // Controller
 function Profile(app, req, res) {
@@ -25,10 +24,7 @@ function Profile(app, req, res) {
             data.user = row;
             
             // Send response
-            const view = new View(app, 'admin/users/profile', 'admin/layout');
-            view.render(data, (html) => {
-                app.sendHTML(res, html);
-            });
+            app.render(res, data, 'admin/users/profile', 'admin/layout');
         });
     };
 };

@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Controller
 function Assets(app, req, res) {
     

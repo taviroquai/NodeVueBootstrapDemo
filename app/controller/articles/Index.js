@@ -1,9 +1,8 @@
 
+"use strict";
+
 // Load models
 const ArticleModel = require('../../model/Article');
-
-// Load View
-const View = require('../../../src/View');
 
 // Controller
 function Index(app, req, res) {
@@ -23,10 +22,8 @@ function Index(app, req, res) {
             data.articles = rows;
             
             // Send response
-            const view = new View(app, 'admin/articles/index', 'admin/layout');
-            view.render(data, (html) => {
-                app.sendHTML(res, html);
-            });
+            app.render(res, data, 'admin/articles/index', 'admin/layout');
+            
         });
     };
 };

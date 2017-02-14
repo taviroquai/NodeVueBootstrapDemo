@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Require fs
 const fs = require("fs");
 
@@ -79,33 +81,22 @@ User.prototype.updatePassword = function(record, password, cb) {
     this.app.db.run(sql, values, cb);
 };
 
-// Validate base64 image
-User.prototype.validateBase64Image = function(base64str) {
-    var ext = false;
-    if (base64str.indexOf('image/png')) {
-        ext = 'png';
-    } else if (base64str.indexOf('image/jpeg')) {
-        ext = 'jpeg';
-    } else if (base64str.indexOf('image/jpg')) {
-        ext = 'jpg';
-    } else if (base64str.indexOf('image/gif')) {
-        ext = 'gif';
-    }
-    return ext;
-};
-
 // Upload image
 User.prototype.uploadImage = function(base64str, target, name, cb) {
     
-    var ext = this.validateBase64Image(base64str);
-    var regex = new RegExp("^data:image/" + ext + ";base64,");
-    base64str = base64str.replace(regex, "");
-    
-    fs.mkdir(target, (err) => {
-        fs.writeFile(target + name + "." + ext, base64str, 'base64', (err) => {
-            typeof cb === 'function' ? cb(err, ext) : false;
+    var ext = false, regex;
+    if (ext = this.app.validateBase64Image(base64str)) {
+        regex = new RegExp("^data:image/" + ext + ";base64,");
+        base64str = base64str.replace(regex, "");
+
+        fs.mkdir(target, (err) => {
+            fs.writeFile(target + name + "." + ext, base64str, 'base64', (err) => {
+                typeof cb === 'function' ? cb(err, ext) : false;
+            });
         });
-    });
+    } else {
+        typeof cb === 'function' ? cb(null, ext) : false;
+    }
     
 };
 
@@ -124,7 +115,6 @@ User.prototype.updateImage = function(record, filename, cb) {
 
 // Remove image
 User.prototype.removeImage = function(filename, cb) {
-    
     fs.unlink(filename, cb);
 };
 

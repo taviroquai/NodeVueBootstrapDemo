@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Require fs
 const fs = require("fs");
 
@@ -20,7 +22,6 @@ View.prototype.loadTemplate = function(template, cb) {
             + template 
             + this.app.getConfig().templates.ext ;
     fs.readFile(filename, 'utf8', (err, content) => {
-        console.log(err);
         if (err) cb(err, '');
         else cb(err, content);
     });

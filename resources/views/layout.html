@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
+        {{#block "title"}}
         <title>{{ title }}</title>
+        {{/block }}
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -9,9 +13,13 @@
         <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
         
+        {{#block "styles" }}
+        {{/block }}
+        
     </head>
     <body>
         
+        {{#block "content" }}
         <div class="container">
             <h1>{{ title }}</h1>
             
@@ -27,6 +35,9 @@
             {{/if }}
             
         </div>
+        {{/block }}
         
+        {{#block "scripts" }}
+        {{/block }}
     </body>
 </html>

@@ -12,7 +12,7 @@
         "lifetime": 1800000,
         "files": "../storage/sessions",
         "encrypt": true,
-        "login_route": "/session/login",
+        "login_route": "/auth/login",
         "login_redirect": "/"
     },
     "routes": [
@@ -21,8 +21,8 @@
         { "path": "^\/assets\/(.+)$", "controller": "Assets", "guest": true },
         { "path": "^\/avatar\/(.+)/(.+)$", "controller": "Avatar", "guest": true },
         
-        { "path": "^\/session\/login$", "controller": "session/Login", "guest": true },
-        { "path": "^\/session\/logout$", "controller": "session/Logout" },
+        { "path": "^\/auth\/login$", "controller": "auth/Login", "guest": true },
+        { "path": "^\/auth\/logout$", "controller": "auth/Logout" },
         
         { "path": "^\/admin$", "controller": "admin/Index" },
         

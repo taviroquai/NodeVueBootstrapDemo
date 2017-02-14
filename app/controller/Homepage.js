@@ -1,6 +1,5 @@
 
-// Load View
-const View = require('../../src/View');
+"use strict";
 
 // Controller
 function Homepage(app, req, res) {
@@ -16,10 +15,7 @@ function Homepage(app, req, res) {
         };
         
         // Send response
-        const view = new View(app, 'homepage');
-        view.render(data, (html) => {
-            app.sendHTML(res, html);
-        });
+        app.render(res, data, 'homepage', 'layout');
     };
 };
 

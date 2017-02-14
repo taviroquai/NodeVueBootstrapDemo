@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Load form parser
 const formidable = require('formidable');
         

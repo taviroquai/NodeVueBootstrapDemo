@@ -1,4 +1,6 @@
 
+"use strict";
+
 // Controller
 function Avatar(app, req, res) {
     

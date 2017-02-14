@@ -2,7 +2,8 @@
 const bcrypt = require('bcrypt');
 const url = require('url');
 const fs = require('fs');
-var NodeSession = require('node-session');
+const http = require('http');
+const NodeSession = require('node-session');
 
 /**
  * Mini framework
@@ -26,6 +27,20 @@ function Mini(config) {
         var sqlite3 = require('sqlite3').verbose();
         this.db = new sqlite3.Database(config.db.filename);
     }
+    
+    // Start listen to HTTP
+    this.listenHTTP = function () {
+        const server = http.createServer(self.onRequest);
+        server.on('clientError', self.onClientError);
+        server.listen(config.http.port, (a) => {
+            console.log('Listening http://localhost:' + config.http.port);
+        });
+    };
+    
+    // Display HTTP error
+    this.onClientError = (err, socket) => {
+        socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+    };
     
     // On HTTP request
     this.onRequest = (req, res) => {
@@ -67,13 +82,13 @@ function Mini(config) {
                 
                 // Get controller
                 params = self.getUrlParams(req, re);
-                controller = require('./app/controller/' + config.routes[i].controller);
+                controller = require('../app/controller/' + config.routes[i].controller);
             }
         }
         
         // Not Found
         if (!found) {
-            controller = require('./app/controller/' + config.http.not_found_controller);
+            controller = require('../app/controller/' + config.http.not_found_controller);
         }
         
         // Dispatch

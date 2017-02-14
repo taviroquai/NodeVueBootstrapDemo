@@ -6,7 +6,7 @@ const formidable = require('formidable');
 const UserModel = require('../../model/User');
 
 // Load View
-const View = require('../../view/View');
+const View = require('../../../src/View');
 
 // Controller
 function Login(app, req, res) {

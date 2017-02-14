@@ -2,6 +2,9 @@
 // Load models
 const usersModel = require('../../model/User');
 
+// Load View
+const View = require('../../../src/View');
+
 // Controller
 function Profile(app, req, res) {
     

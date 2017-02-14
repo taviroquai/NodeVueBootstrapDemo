@@ -2,6 +2,9 @@
 // Load models
 const ArticleModel = require('../../model/Article');
 
+// Load View
+const View = require('../../../src/View');
+
 // Controller
 function Display(app, req, res) {
     
@@ -22,7 +25,10 @@ function Display(app, req, res) {
             data.article = row;
             
             // Send response
-            app.sendHTML(res, 'admin/articles/display', data);
+            const view = new View(app, 'admin/articles/display');
+            view.render(data, (html) => {
+                app.sendHTML(res, html);
+            });
         });
     };
 };

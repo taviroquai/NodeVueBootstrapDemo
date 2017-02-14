@@ -20,9 +20,9 @@ View.prototype.loadTemplate = function(template, cb) {
             + template 
             + this.app.getConfig().templates.ext ;
     fs.readFile(filename, 'utf8', (err, content) => {
-
-        if (err) return '';
-        cb(err, content);
+        console.log(err);
+        if (err) cb(err, '');
+        else cb(err, content);
     });
 };
 
@@ -56,7 +56,6 @@ T.loadPartial = function (name) {
   return partial;
 };
 T.registerHelper("block", function (name, options) {
-    /* Look for partial by name. */
     var partial = T.loadPartial(name) || options.fn;
     return partial(this, { data : options.hash });
 });

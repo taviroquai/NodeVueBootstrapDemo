@@ -1,6 +1,6 @@
 
 // require Model
-const Model = require('./Model');
+const Model = require('../../src/Model');
 
 // Article Model
 function Article(app) {

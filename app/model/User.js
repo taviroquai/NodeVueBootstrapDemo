@@ -3,7 +3,7 @@
 const fs = require("fs");
 
 // require Model
-const Model = require('./Model');
+const Model = require('../../src/Model');
 
 // User Model
 function User(app) {

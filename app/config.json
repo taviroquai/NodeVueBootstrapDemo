@@ -10,7 +10,7 @@
     "sessions": {
         "secret": "Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD",
         "lifetime": 1800000,
-        "files": "./storage/sessions",
+        "files": "../storage/sessions",
         "encrypt": true,
         "login_route": "/session/login",
         "login_redirect": "/"

@@ -3,7 +3,7 @@
 const ArticleModel = require('../../model/Article');
 
 // Load View
-const View = require('../../view/View');
+const View = require('../../../src/View');
 
 // Controller
 function Index(app, req, res) {

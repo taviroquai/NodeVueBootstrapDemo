@@ -7,7 +7,8 @@ function Assets(app, req, res) {
     // HTTP action
     this.action = (params) => {
         
-        app.sendFile(res, './public/assets/' + params[0]);
+        // Send file
+        app.sendFile(res, app.getConfig().files.assets_path + params[0]);
     };
 };
 

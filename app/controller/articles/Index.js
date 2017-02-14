@@ -15,6 +15,7 @@ function Index(app, req, res) {
         // Response data
         const data = {
             success: true,
+            logged: req.session.get('logged'),
             articles: []
         };
         

@@ -1,20 +1,27 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ User.title }}</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
-        
-    </head>
-    <body>
-        <h1>{{ User.title }}</h1>
-        
+{{#partial "content" }}
+<div class="content-wrapper" id="app">
+    <div class="page-title">
         <div>
-            {{{ User.body }}}
+            <h1><i class="fa fa-pie-chart"></i> My Profile</h1>
+            <p>Update my profile</p>
         </div>
-        
-    </body>
-</html>
+        <div>
+            <ul class="breadcrumb">
+                <li><i class="fa fa-home fa-lg"></i></li>
+                <li><a href="/admin/users/profile">my profile</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h3 class="card-title">My Profile</h3>
+                
+                <h4>{{ user.username }}</h4>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial }}
+{{> layout }}

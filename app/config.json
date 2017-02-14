@@ -15,10 +15,13 @@
         "login_route": "/auth/login",
         "login_redirect": "/"
     },
+    "files": {
+        "assets_path": "./assets/"
+    },
     "routes": [
         
         { "path": "^\/$", "controller": "Homepage", "guest": true },
-        { "path": "^\/assets\/(.+)$", "controller": "Assets", "guest": true },
+        { "path": "^\/assets\/(.+)", "controller": "Assets", "guest": true },
         { "path": "^\/avatar\/(.+)/(.+)$", "controller": "Avatar", "guest": true },
         
         { "path": "^\/auth\/login$", "controller": "auth/Login", "guest": true },

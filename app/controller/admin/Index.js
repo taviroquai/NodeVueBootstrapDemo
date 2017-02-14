@@ -9,7 +9,8 @@ function Index(app, req, res) {
         
         // Response data
         const data = {
-            title: 'Admin'
+            title: 'Admin',
+            logged: req.session.get('logged')
         };
         
         // Send response

@@ -7,6 +7,11 @@ const fs = require("fs");
 // Require template engine
 const T = require('handlebars');
 
+// Helpers
+T.registerHelper('active', function(arg1) {
+    return this.url === arg1 ? 'active' : '';
+});
+
 // Admin Layout
 function View(app, template, layout) {
     

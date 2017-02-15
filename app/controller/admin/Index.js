@@ -10,6 +10,7 @@ function Index(app, req, res) {
         // Response data
         const data = {
             title: 'Admin',
+            url: req.url,
             logged: req.session.get('logged')
         };
         

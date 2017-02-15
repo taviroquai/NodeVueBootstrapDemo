@@ -31,13 +31,13 @@
                 <!--Notification Menu-->
                 <li class="dropdown notification-menu"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell-o fa-lg"></i></a>
                   <ul class="dropdown-menu">
-                    <li class="not-head">You have 2 new notifications.</li>
+                    <li class="not-head">You have 0 new notifications.</li>
+                    <!--
                     <li><a class="media" href="javascript:;"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
                         <div class="media-body"><span class="block">Lisa sent you a mail</span><span class="text-muted block">2min ago</span></div></a></li>
                     <li><a class="media" href="javascript:;"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
                         <div class="media-body"><span class="block">Server Not Working</span><span class="text-muted block">2min ago</span></div></a></li>
-                    <li><a class="media" href="javascript:;"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
-                        <div class="media-body"><span class="block">Transaction xyz complete</span><span class="text-muted block">2min ago</span></div></a></li>
+                    -->
                     <li class="not-footer"><a href="#">See all notifications.</a></li>
                   </ul>
                 </li>
@@ -72,13 +72,19 @@
             </div>
             <!-- Sidebar Menu-->
             <ul class="sidebar-menu">
-              <li class="active">
+              <li class="{{active "/admin" }}">
                   <a href="/admin"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
               </li>
-              <li><a href="/admin/articles"><i class="fa fa-pie-chart"></i><span>Articles</span></a></li>
-              <li class="treeview"><a href="#"><i class="fa fa-laptop"></i><span>System</span><i class="fa fa-angle-right"></i></a>
+              <li class="{{active "/admin/articles" }}">
+                  <a href="/admin/articles"><i class="fa fa-pie-chart"></i><span>Articles</span></a>
+              </li>
+              <li class="treeview {{active "/admin/users" }}">
+                  <a href="#"><i class="fa fa-laptop"></i><span>System</span><i class="fa fa-angle-right"></i>
+                  </a>
                 <ul class="treeview-menu">
-                  <li><a href="/admin/users"><i class="fa fa-circle-o"></i> Users</a></li>
+                  <li class="{{active "/admin/users" }}">
+                      <a href="/admin/users"><i class="fa fa-circle-o"></i> Users</a>
+                  </li>
                 </ul>
               </li>
             </ul>

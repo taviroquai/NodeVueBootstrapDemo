@@ -15,6 +15,7 @@ function Form(app, req, res) {
         // Response data
         const data = {
             success: true,
+            url: req.url,
             logged: req.session.get('logged'),
             article: false
         };

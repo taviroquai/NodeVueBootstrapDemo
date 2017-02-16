@@ -35,6 +35,7 @@
         { "path": "^\/admin\/articles\/del/([0-9]+)$", "controller": "articles/Delete" },
         
         { "path": "^\/admin\/users$", "controller": "users/Index" },
+        { "path": "^\/admin\/users/table$", "controller": "users/Table" },
         { "path": "^\/admin\/users\/form/([0-9]+)$", "controller": "users/Form" },
         { "path": "^\/admin\/users\/save", "controller": "users/Save" },
         { "path": "^\/admin\/users\/del/([0-9]+)$", "controller": "users/Delete" },

@@ -10,14 +10,23 @@ var admin = {
             image: ''
         }
     },
-    beforeCreate: function () {
-        var v = this;
-        var url = '/admin/users/table';
-        v.$http.get(url).then((res) => {
-            v.users = res.data.success ? res.data.items : [];
-        });
+    created: function () {
+        this.resetUsers();
     },
     methods: {
+        resetUsers: function () {
+            var v = this;
+            this.edit_user = {
+                id: 0,
+                username: '',
+                email: '',
+                image: ''
+            };
+            var url = '/admin/users/table';
+            v.$http.get(url).then((res) => {
+                v.users = res.data.success ? res.data.items : [];
+            });
+        },
         editUser: function (user) {
             this.edit_user = user;
             this.menu = 'users_form';

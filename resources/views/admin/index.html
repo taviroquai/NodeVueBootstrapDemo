@@ -5,10 +5,12 @@
     <users_index 
         v-show="isActive('users_index')"
         v-bind:users="users"
+        v-on:users_load="resetUsers"
         v-on:edit_user="editUser"></users_index>
     <users_form 
         v-show="isActive('users_form')"
         v-bind:user="edit_user"
+        v-on:users_load="resetUsers"
         v-on:set_menu="setMenu"></users_form>
     
 </div>

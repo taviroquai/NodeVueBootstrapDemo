@@ -5,7 +5,6 @@ var users_form = {
     props: ['user'],
     data: function () {
         return {
-            action: '/admin/users/save',
             redirect: '/admin/users',
             avatar_uri: '/avatar/',
             processing: false,
@@ -23,12 +22,13 @@ var users_form = {
             v.processing = true;
             v.success = false;
             v.error = false;
-            console.log(url); return;
-            v.$http.post(v.action, v.user)
+            
+            v.$http.post(url, v.user)
             .then((res) => {
                 v.processing = false;
                 if (res.body && res.body.success) {
                     v.success = true;
+                    v.$emit('users_load');
                     v.setMenu('users_index');
                 } else {
                     v.error = res.body.error;

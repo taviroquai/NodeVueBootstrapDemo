@@ -16,7 +16,8 @@ var users_index = {
                 id: 0,
                 username: '',
                 email: '',
-                image: ''
+                image: '',
+                image_upload: false
             };
             this.$emit('edit_user', user);
         },
@@ -29,14 +30,12 @@ var users_index = {
             v.processing = true;
             v.success = false;
             v.error = false;
-            console.log(url); return;
+            
             v.$http.get(url).then((res) => {
                 v.processing = false;
                 if (res.body && res.body.success) {
                     v.success = true;
-                    for (var i = 0; i < v.users.length; i++) {
-                        if (v.users[i].id === item.id) delete v.users[i];
-                    }
+                    v.$emit('users_load');
                 } else {
                     v.error = res.body.error;
                 }

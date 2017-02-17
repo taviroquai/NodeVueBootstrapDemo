@@ -195,6 +195,7 @@ function Mini(config) {
     // Validate base64 image
     this.validateBase64Image = (base64str) => {
         var ext = false;
+        if (!base64str) return ext;
         if (base64str.indexOf('image/png')) {
             ext = 'png';
         } else if (base64str.indexOf('image/jpeg')) {

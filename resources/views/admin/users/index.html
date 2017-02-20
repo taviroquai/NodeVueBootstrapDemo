@@ -1,5 +1,4 @@
-{{#partial "content" }}
-<div class="content-wrapper" id="app">
+<div>
     <div class="page-title">
         <div>
             <h1><i class="fa fa-pie-chart"></i> Users</h1>
@@ -8,7 +7,7 @@
         <div>
             <ul class="breadcrumb">
                 <li><i class="fa fa-home fa-lg"></i></li>
-                <li><a href="/admin/users">users</a></li>
+                <li><a href="" v-on:click.prevent="setMenu('users_index')">users</a></li>
             </ul>
         </div>
     </div>
@@ -17,10 +16,12 @@
             <div class="card">
                 <h3 class="card-title">Users</h3>
 
-                <a href="/admin/users/form/0" 
+                <a href="" 
                    style="margin-bottom: 10px"
                    v-bind:disabled="processing"
+                   v-on:click.prevent="formNew"
                    class="btn btn-primary btm-sm pull-right">New</a>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -31,23 +32,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each users }}
-                        <tr>
-                            <td>{{ id }}</td>
-                            <td>{{ username }}</td>
-                            <td>{{ email }}</td>
+                        <tr v-for="item in users">
+                            <td v-text="item.id"></td>
+                            <td v-text="item.username"></td>
+                            <td v-text="item.email"></td>
                             <td>
                                 <a class="btn btn-warning btn-sm"
                                    v-bind:disabled="processing"
-                                   href="/admin/users/form/{{ id }}">edit</a>
+                                   v-on:click.prevent="edit(item)">edit</a>
                                 &nbsp;
                                 <a class="btn btn-danger btn-sm"
                                    v-bind:disabled="processing"
-                                   v-on:click.prevent="del"
-                                   href="/admin/users/del/{{ id }}">del</a>
+                                   v-on:click.prevent="del(item)">del</a>
                             </td>
                         </tr>
-                        {{/each }}
                     </tbody>
                 </table>
 
@@ -55,12 +53,3 @@
         </div>
     </div>
 </div>
-{{/partial }}
-
-{{#partial "scripts" }}
-<script src="/assets/admin/js/users/index.js"></script>
-<script>
-var vm = new Vue(index);
-</script>
-{{/partial }}
-{{> layout }}

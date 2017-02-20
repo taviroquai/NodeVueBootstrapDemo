@@ -1,5 +1,4 @@
-{{#partial "content" }}
-<div class="content-wrapper" id="app">
+<div>
     <div class="page-title">
         <div>
             <h1><i class="fa fa-pie-chart"></i> Edit Article</h1>
@@ -22,7 +21,8 @@
                             v-on:click="save"
                             class="btn btn-primary btn-sm">Save
                     </button>
-                    <a class="btn btn-warning btn-sm" href="/admin/articles">Back</a>
+                    <a class="btn btn-warning btn-sm" href="" 
+                       v-on:click.prevent="setMenu('articles_index')">Back</a>
                 </div>
 
                 <form action="" method="post" v-on:submit.prevent="save">
@@ -31,12 +31,14 @@
 
                     <div class="form-group">
                         <label>Title</label>
-                        <input class="form-control" type="text" name="title" value="" v-model="article.title" />
+                        <input class="form-control" type="text" name="title" 
+                               value="" v-model="article.title" />
                     </div>
 
                     <div class="form-group">
                         <label>Body</label>
-                        <textarea class="form-control" name="body" v-model="article.body"></textarea>
+                        <textarea class="form-control" name="body" 
+                                  v-model="article.body"></textarea>
                     </div>
 
                     <div class="alert alert-success" v-show="success" v-cloak>Saved</div>
@@ -52,20 +54,3 @@
         </div>
     </div>
 </div>
-{{/partial }}
-
-{{#partial "scripts" }}
-<script src="/assets/admin/js/articles/form.js"></script>
-<script>
-form.data.action = '/admin/articles/save';
-form.data.redirect = '/admin/articles';
-form.data.article = {
-    id: '{{ article.id }}',
-    title: '{{ article.title }}',
-    body: '{{ article.body }}'
-};
-var vm = new Vue(form);
-</script>
-{{/partial }}
-
-{{> layout }}

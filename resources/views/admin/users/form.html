@@ -1,5 +1,4 @@
-{{#partial "content" }}
-<div class="content-wrapper" id="app">
+<div>
     <div class="page-title">
         <div>
             <h1><i class="fa fa-pie-chart"></i> Edit Users</h1>
@@ -17,13 +16,13 @@
             <div class="card">
                 <h3 class="card-title">Edit User</h3>
 
-
                 <div class="pull-right">
                     <button v-bind:disabled="processing"
                             v-on:click="save"
                             class="btn btn-primary btn-sm">Save
                     </button>
-                    <a class="btn btn-warning btn-sm" href="/admin/users">Back</a>
+                    <a class="btn btn-warning btn-sm" href="" 
+                       v-on:click.prevent="setMenu('users_index')">Back</a>
                 </div>
                 <div class="clearfix" style="margin-top: 10px"></div>
 
@@ -101,23 +100,3 @@
         </div>
     </div>
 </div>
-{{/partial }}
-
-{{#partial "scripts" }}
-<script src="/assets/admin/js/users/form.js"></script>
-<script>
-form.data.action = '/admin/users/save';
-form.data.redirect = '/admin/users';
-form.data.avatar_uri = '/avatar/';
-form.data.user = {
-    id: '{{ user.id }}',
-    username: '{{ user.username }}',
-    email: '{{ user.email }}',
-    password: '',
-    image: '{{ user.image }}',
-    image_upload: ''
-};
-var vm = new Vue(form);
-</script>
-{{/partial }}
-{{> layout }}

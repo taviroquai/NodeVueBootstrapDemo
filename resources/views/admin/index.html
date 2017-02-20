@@ -2,6 +2,16 @@
 <div class="content-wrapper">
     
     <dashboard v-show="isActive('dashboard')"></dashboard>
+    <articles_index 
+        v-show="isActive('articles_index')"
+        v-bind:articles="articles"
+        v-on:articles_load="resetArticles"
+        v-on:edit_article="editArticle"></articles_index>
+    <articles_form 
+        v-show="isActive('articles_form')"
+        v-bind:article="edit_article"
+        v-on:articles_load="resetArticles"
+        v-on:set_menu="setMenu"></articles_form>
     <users_index 
         v-show="isActive('users_index')"
         v-bind:users="users"
@@ -15,200 +25,42 @@
     
 </div>
 <script type="text/x-template" id="dashboard">
-    <div>
-        <div class="page-title">
-            <div>
-                <h1><i class="fa fa-pie-chart"></i> Dashboard</h1>
-                <p>Application summary</p>
-            </div>
-            <div>
-                <ul class="breadcrumb">
-                    <li><i class="fa fa-home fa-lg"></i></li>
-                    <li><a href="" v-on:click.prevent="setMenu('dashboard')">dashboard</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <h3 class="card-title">Dashboard</h3>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
+    {{#include "admin/dashboard" }}
+    {{/include }}
+</script>
+
+<script type="text/x-template" id="articles_index">
+    {{#include "admin/articles/index" }}
+    {{/include }}
+</script>
+
+<script type="text/x-template" id="articles_form">
+    {{#include "admin/articles/form" }}
+    {{/include }}
 </script>
 
 <script type="text/x-template" id="users_index">
-    <div>
-        <div class="page-title">
-            <div>
-                <h1><i class="fa fa-pie-chart"></i> Users</h1>
-                <p>Manage application users</p>
-            </div>
-            <div>
-                <ul class="breadcrumb">
-                    <li><i class="fa fa-home fa-lg"></i></li>
-                    <li><a href="" v-on:click.prevent="setMenu('users_index')">users</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <h3 class="card-title">Users</h3>
-                    
-                    <a href="" 
-                       style="margin-bottom: 10px"
-                       v-bind:disabled="processing"
-                       v-on:click.prevent="formNew"
-                       class="btn btn-primary btm-sm pull-right">New</a>
-                       
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th style="width: 130px"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in users">
-                                <td v-text="item.id"></td>
-                                <td v-text="item.username"></td>
-                                <td v-text="item.email"></td>
-                                <td>
-                                    <a class="btn btn-warning btn-sm"
-                                       v-bind:disabled="processing"
-                                       v-on:click.prevent="edit(item)">edit</a>
-                                    &nbsp;
-                                    <a class="btn btn-danger btn-sm"
-                                       v-bind:disabled="processing"
-                                       v-on:click.prevent="del(item)">del</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    {{#include "admin/users/index" }}
+    {{/include }}
 </script>
 
 <script type="text/x-template" id="users_form">
-    <div>
-        <div class="page-title">
-            <div>
-                <h1><i class="fa fa-pie-chart"></i> Edit Users</h1>
-                <p>Manage application users</p>
-            </div>
-            <div>
-                <ul class="breadcrumb">
-                    <li><i class="fa fa-home fa-lg"></i></li>
-                    <li><a href="/admin/users">users</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <h3 class="card-title">Edit User</h3>
-                    
-                    <div class="pull-right">
-                        <button v-bind:disabled="processing"
-                                v-on:click="save"
-                                class="btn btn-primary btn-sm">Save
-                        </button>
-                        <a class="btn btn-warning btn-sm" href="" 
-                            v-on:click.prevent="setMenu('users_index')">Back</a>
-                    </div>
-                    <div class="clearfix" style="margin-top: 10px"></div>
-
-                    <form action="" method="post" v-on:submit.prevent="save">
-
-                        <input type="hidden" name="id" value="" v-model="user.id" />
-
-                        <div class="row">
-                            <div class="col-md-8">
-
-                                <div class="form-group">
-                                    <label>Username</label>
-                                    <input class="form-control" 
-                                           v-model="user.username"
-                                           type="text" name="username" value="" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input class="form-control" 
-                                           v-model="user.email"
-                                           type="text" name="email" value="" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input class="form-control" 
-                                           v-model="user.password"
-                                           type="password" name="password" value="" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input class="form-control" 
-                                           v-model="user.password_confirm"
-                                           type="password" name="password_confirm" value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-
-                                <label>Avatar</label>
-                                <div class="clearfix"></div>
-                                <div class="btn-group">
-                                    <label class="btn btn-default btn-file">
-                                        Browse Image
-                                        <input type="file" name="image_upload" 
-                                               v-on:change="selectImage"
-                                               style="display: none;">
-                                    </label>
-                                    <button class="btn btn-danger" v-show="user.image || user.image_upload" 
-                                            v-on:click.prevent="removeImage">Remove image</button>
-                                </div>
-                                <div v-show="getAvatarUrl">
-                                    <img class="thumbnail" v-bind:src="getAvatarUrl" />
-                                </div>
-                                <div v-show="user.image_upload">
-                                    <img class="thumbnail" v-bind:src="user.image_upload" />
-                                </div>
-                                <input type="hidden" name="image" v-model="user.image" />
-
-                            </div>
-                        </div>
-                        <div class="clearfix" style="margin-top: 10px"></div>
-
-                        <div class="alert alert-success" v-show="success" v-cloak>Saved</div>
-                        <div class="alert alert-danger" v-show="error" v-text="error" v-cloak></div>
-
-                        <button type="submit" 
-                                v-bind:disabled="processing"
-                                class="btn btn-primary btn-sm">Save
-                        </button>
-                        <a class="btn btn-warning btn-sm" href="/admin/users">Back</a>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{#include "admin/users/form" }}
+    {{/include }}
 </script>
 {{/partial }}
+
 {{#partial "scripts" }}
 <script src="/assets/admin/js/admin.js"></script>
 <script src="/assets/admin/js/dashboard.js"></script>
+<script src="/assets/admin/js/articles/index.js"></script>
+<script src="/assets/admin/js/articles/form.js"></script>
 <script src="/assets/admin/js/users/index.js"></script>
 <script src="/assets/admin/js/users/form.js"></script>
 <script>
     Vue.component('dashboard', dashboard);
+    Vue.component('articles_index', articles_index);
+    Vue.component('articles_form', articles_form);
     Vue.component('users_index', users_index);
     Vue.component('users_form', users_form);
     var vm = new Vue(admin);

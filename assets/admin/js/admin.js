@@ -2,6 +2,12 @@ var admin = {
     el: '#app',
     data: {
         menu: 'dashboard',
+        articles: [],
+        edit_article: {
+            id: 0,
+            title: '',
+            body: ''
+        },
         users: [],
         edit_user: {
             id: 0,
@@ -11,9 +17,29 @@ var admin = {
         }
     },
     created: function () {
+        this.resetArticles();
         this.resetUsers();
     },
     methods: {
+        resetArticles: function () {
+            var v = this;
+            this.edit_article = {
+                id: 0,
+                title: '',
+                body: ''
+            };
+            var url = '/admin/articles/table';
+            v.$http.get(url).then((res) => {
+                v.articles = res.data.success ? res.data.items : [];
+            });
+        },
+        editArticle: function (article) {
+            this.edit_article = article;
+            this.menu = 'articles_form';
+        },
+        saveArticle: function () {
+            this.menu = 'articles_index';
+        },
         resetUsers: function () {
             var v = this;
             this.edit_user = {

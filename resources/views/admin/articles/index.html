@@ -1,5 +1,4 @@
-{{#partial "content" }}
-<div class="content-wrapper" id="app">
+<div>
     <div class="page-title">
         <div>
             <h1><i class="fa fa-pie-chart"></i> Articles</h1>
@@ -8,7 +7,7 @@
         <div>
             <ul class="breadcrumb">
                 <li><i class="fa fa-home fa-lg"></i></li>
-                <li><a href="/admin/articles">articles</a></li>
+                <li><a href="" v-on:click.prevent="setMenu('articles_index')">articles</a></li>
             </ul>
         </div>
     </div>
@@ -17,42 +16,36 @@
             <div class="card">
                 <h3 class="card-title">Articles</h3>
 
-                <a href="/admin/articles/form/0" 
+                <a href="" 
                    style="margin-bottom: 10px"
                    v-bind:disabled="processing"
+                   v-on:click.prevent="formNew"
                    class="btn btn-primary btm-sm pull-right">New</a>
                 <table class="table table-striped">
                     <thead>
-                        <tr><th>ID</th><th>Title</th><th style="width: 130px"></th></tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th style="width: 130px"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                        {{#each articles }}
-                        <tr>
-                            <td>{{ id }}</td>
-                            <td>{{ title }}</td>
+                        <tr v-for="item in articles">
+                            <td v-text="item.id"></td>
+                            <td v-text="item.title"></td>
                             <td>
                                 <a class="btn btn-warning btn-sm"
                                    v-bind:disabled="processing"
-                                   href="/admin/articles/form/{{ id }}">edit</a>
+                                   v-on:click.prevent="edit(item)">edit</a>
                                 &nbsp;
                                 <a class="btn btn-danger btn-sm"
                                    v-bind:disabled="processing"
-                                   v-on:click.prevent="del"
-                                   href="/admin/articles/del/{{ id }}">del</a>
+                                   v-on:click.prevent="del(item)">del</a>
                             </td>
                         </tr>
-                        {{/each }}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-{{/partial }}
-{{#partial "scripts" }}
-<script src="/assets/admin/js/articles/index.js"></script>
-<script>
-    var vm = new Vue(index);
-</script>
-{{/partial }}
-{{> layout }}

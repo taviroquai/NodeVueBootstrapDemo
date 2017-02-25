@@ -21,7 +21,6 @@
     "routes": [
         
         { "path": "^\/$", "controller": "Homepage", "guest": true },
-        { "path": "^\/assets\/(.+)", "controller": "Assets", "guest": true },
         { "path": "^\/avatar\/(.+)/(.+)$", "controller": "Avatar", "guest": true },
         
         { "path": "^\/auth\/login$", "controller": "auth/Login", "guest": true },

@@ -5,7 +5,6 @@ var articles_form = {
     props: ['article'],
     data: function () {
         return {
-            redirect: '/admin/articles',
             processing: false,
             success: false,
             error: false
@@ -13,6 +12,7 @@ var articles_form = {
     },
     methods: {
         setMenu: function (menu) {
+            this.success = false;
             this.$emit('set_menu', menu);
         },
         save: function(e) {

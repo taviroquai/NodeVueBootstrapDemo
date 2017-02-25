@@ -26,7 +26,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
-                            <th style="width: 130px"></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,11 +36,15 @@
                             <td>
                                 <a class="btn btn-warning btn-sm"
                                    v-bind:disabled="processing"
-                                   v-on:click.prevent="edit(item)">edit</a>
+                                   v-on:click.prevent="edit(item)">
+                                       <i class="fa fa-pencil"></i>
+                                </a>
                                 &nbsp;
                                 <a class="btn btn-danger btn-sm"
                                    v-bind:disabled="processing"
-                                   v-on:click.prevent="del(item)">del</a>
+                                   v-on:click.prevent="del(item)">
+                                       <i class="fa fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     </tbody>

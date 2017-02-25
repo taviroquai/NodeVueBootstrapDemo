@@ -26,24 +26,28 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Username</th>
+                            <th class="hidden-xs">Username</th>
                             <th>Email</th>
-                            <th style="width: 130px"></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="item in users">
                             <td v-text="item.id"></td>
-                            <td v-text="item.username"></td>
+                            <td v-text="item.username" class="hidden-xs"></td>
                             <td v-text="item.email"></td>
                             <td>
                                 <a class="btn btn-warning btn-sm"
                                    v-bind:disabled="processing"
-                                   v-on:click.prevent="edit(item)">edit</a>
+                                   v-on:click.prevent="edit(item)">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
                                 &nbsp;
                                 <a class="btn btn-danger btn-sm"
                                    v-bind:disabled="processing"
-                                   v-on:click.prevent="del(item)">del</a>
+                                   v-on:click.prevent="del(item)">
+                                    <i class="fa fa-trash"></i>   
+                                </a>
                             </td>
                         </tr>
                     </tbody>

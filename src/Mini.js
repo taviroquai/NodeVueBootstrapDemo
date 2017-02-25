@@ -50,13 +50,23 @@ function Mini(config) {
     
     // On HTTP request
     this.onRequest = (req, res) => {
+        
+        // Send static file
+        var params = [],
+            re = new RegExp("^\/assets\/(.+)");
+        if (re.test(req.url)) {
+            //console.log(req.url);
+            params = self.getUrlParams(req, re);
+            self.sendFile(res, self.getConfig().files.assets_path + params[0]);
+        } else {
 
-        // Start session
-        session.startSession(req, res, () => {
-            
-            self.initSession(req);
-            self.dispatch(req, res);
-        });
+            // Start session
+            session.startSession(req, res, () => {
+
+                self.initSession(req);
+                self.dispatch(req, res);
+            });
+        }
     };
     
     // Dispatch request
@@ -88,6 +98,7 @@ function Mini(config) {
                 
                 // Get controller
                 params = self.getUrlParams(req, re);
+                console.log(config.routes[i].controller);
                 controller = require('../app/controller/' + config.routes[i].controller);
             }
         }
@@ -142,6 +153,7 @@ function Mini(config) {
     // Send static file
     this.sendFile = (res, filename) => {
         if (fs.existsSync(filename)) {
+            res.writeHead(200, {'Cache-Control': 'max-age=86400'});
             fs.createReadStream(filename).pipe(res);
         } else {
             res.end();

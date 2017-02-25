@@ -66,17 +66,17 @@
 
                             <label>Avatar</label>
                             <div class="clearfix"></div>
-                            <div class="btn-group">
+                            <div class="btn-group" style="width: 100%">
                                 <label
                                     class="btn btn-default btn-file">
-                                    Browse Image
+                                    Browse
                                     <input type="file" name="image_upload" 
                                            v-on:click="removeUpload"
                                            v-on:change="selectImage"
                                            style="display: none;">
                                 </label>
                                 <button class="btn btn-danger" v-show="user.image || user.image_upload" 
-                                        v-on:click.prevent="removeImage">Remove image</button>
+                                        v-on:click.prevent="removeImage">Remove</button>
                             </div>
                             <div v-show="user.image || user.image_upload">
                                 <img class="thumbnail" v-bind:src="getAvatar()" />

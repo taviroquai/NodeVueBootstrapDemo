@@ -13,6 +13,7 @@ var users_form = {
     },
     methods: {
         setMenu: function (menu) {
+            this.success = false;
             this.$emit('set_menu', menu);
         },
         save: function(e) {

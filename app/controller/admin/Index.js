@@ -1,6 +1,9 @@
 
 "use strict";
 
+// Load models
+const UserModel = require('../../model/User');
+
 // Controller
 function Index(app, req, res) {
     
@@ -11,11 +14,17 @@ function Index(app, req, res) {
         const data = {
             title: 'Admin',
             url: req.url,
-            logged: req.session.get('logged')
+            logged: false
         };
         
-        // Send response
-        app.render(res, data, 'admin/index', 'admin/layout');
+        // Load logged user
+        var model = new UserModel(app);
+        model.findBy('email', req.session.get('logged'), (err, rows) => {
+            data.logged = rows[0];
+            
+            // Send response
+            app.render(res, data, 'admin/index', 'admin/layout');
+        });
     };
 };
 

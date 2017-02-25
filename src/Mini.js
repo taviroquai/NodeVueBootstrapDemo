@@ -212,13 +212,13 @@ function Mini(config) {
     this.validateBase64Image = (base64str) => {
         var ext = false;
         if (!base64str) return ext;
-        if (base64str.indexOf('image/png')) {
+        if (base64str.indexOf('image/png') !== -1) {
             ext = 'png';
-        } else if (base64str.indexOf('image/jpeg')) {
+        } else if (base64str.indexOf('image/jpeg') !== -1) {
             ext = 'jpeg';
-        } else if (base64str.indexOf('image/jpg')) {
+        } else if (base64str.indexOf('image/jpg') !== -1) {
             ext = 'jpg';
-        } else if (base64str.indexOf('image/gif')) {
+        } else if (base64str.indexOf('image/gif') !== -1) {
             ext = 'gif';
         }
         return ext;

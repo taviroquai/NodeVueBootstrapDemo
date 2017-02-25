@@ -24,7 +24,7 @@ function Display(app, req, res) {
             data.article = row;
             
             // Send response
-            app.render(res, data, 'admin/articles/display');
+            app.render(res, data, 'admin/articles/display', 'admin/layout');
         });
     };
 };

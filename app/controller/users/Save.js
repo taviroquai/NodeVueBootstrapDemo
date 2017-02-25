@@ -52,7 +52,7 @@ function Save(app, req, res) {
                     users.save(record, fields, (err, record) => {
                         
                         // Change password
-                        if (fields.password !== '') {
+                        if (fields.password && fields.password.length) {
                             app.encrypt(fields.password, false, (err, hash) => {
                                 users.updatePassword(record, hash);
                             });

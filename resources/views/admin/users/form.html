@@ -7,7 +7,8 @@
         <div>
             <ul class="breadcrumb">
                 <li><i class="fa fa-home fa-lg"></i></li>
-                <li><a href="/admin/users">users</a></li>
+                <li><a href="" 
+                       v-on:click.prevent="setMenu('users_index')">users</a></li>
             </ul>
         </div>
     </div>
@@ -66,9 +67,11 @@
                             <label>Avatar</label>
                             <div class="clearfix"></div>
                             <div class="btn-group">
-                                <label class="btn btn-default btn-file">
+                                <label
+                                    class="btn btn-default btn-file">
                                     Browse Image
                                     <input type="file" name="image_upload" 
+                                           v-on:click="removeUpload"
                                            v-on:change="selectImage"
                                            style="display: none;">
                                 </label>
@@ -91,7 +94,8 @@
                             v-bind:disabled="processing"
                             class="btn btn-primary btn-sm">Save
                     </button>
-                    <a class="btn btn-warning btn-sm" href="/admin/users">Back</a>
+                    <a class="btn btn-warning btn-sm" href="" 
+                       v-on:click.prevent="setMenu('users_index')">Back</a>
                 </form>
             </div>
         </div>

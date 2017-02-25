@@ -5,7 +5,6 @@ var users_form = {
     props: ['user'],
     data: function () {
         return {
-            redirect: '/admin/users',
             avatar_uri: '/avatar/',
             processing: false,
             success: false,
@@ -47,6 +46,11 @@ var users_form = {
         },
         removeImage: function (e) {
             this.user.image = '';
+            this.user.image_upload = '';
+            this.$forceUpdate();
+        },
+        removeUpload: function (e) {
+            e.target.value = '';
             this.user.image_upload = '';
             this.$forceUpdate();
         },

@@ -20,7 +20,7 @@ function Table(app, req, res) {
         };
         
         // Load from database
-        users.findAll((err, rows) => {
+        users.findAll('id, username, email, image', (err, rows) => {
             data.items = rows;
             
             // Send response

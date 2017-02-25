@@ -54,8 +54,17 @@ function User(app) {
             if (!exists_image) {
                 self.app.db.run("ALTER TABLE users ADD COLUMN image VARCHAR(255)");
             }
+            
+            // Add default user
+            var sql = "INSERT INTO users (username,password,email) VALUES (?,?,?)";
+            self.app.db.all("SELECT * FROM users", (err, rows) => {
+                if (rows.length === 0) {
+                    app.encrypt('admin', false, (err, hash) => {
+                        self.app.db.run(sql, ['admin', hash, 'admin@isp.com']);
+                    });
+                }
+            });
         });
-
     });
 }
 

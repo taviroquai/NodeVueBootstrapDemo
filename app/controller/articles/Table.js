@@ -20,7 +20,7 @@ function Table(app, req, res) {
         };
         
         // Load from database
-        articles.findAll((err, rows) => {
+        articles.findAll('*', (err, rows) => {
             data.items = rows;
             
             // Send response

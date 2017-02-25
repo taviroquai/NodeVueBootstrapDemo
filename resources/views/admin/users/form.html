@@ -75,11 +75,8 @@
                                 <button class="btn btn-danger" v-show="user.image || user.image_upload" 
                                         v-on:click.prevent="removeImage">Remove image</button>
                             </div>
-                            <div v-show="getAvatarUrl">
-                                <img class="thumbnail" v-bind:src="getAvatarUrl" />
-                            </div>
-                            <div v-show="user.image_upload">
-                                <img class="thumbnail" v-bind:src="user.image_upload" />
+                            <div v-show="user.image || user.image_upload">
+                                <img class="thumbnail" v-bind:src="getAvatar()" />
                             </div>
                             <input type="hidden" name="image" v-model="user.image" />
 

@@ -141,7 +141,11 @@ function Mini(config) {
     
     // Send static file
     this.sendFile = (res, filename) => {
-        fs.createReadStream(filename).pipe(res);
+        if (fs.existsSync(filename)) {
+            fs.createReadStream(filename).pipe(res);
+        } else {
+            res.end();
+        }
     };
     
     // Encrypt string (app wide)

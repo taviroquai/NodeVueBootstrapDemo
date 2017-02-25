@@ -28,8 +28,7 @@ var admin = {
                 title: '',
                 body: ''
             };
-            var url = '/admin/articles/table';
-            v.$http.get(url).then((res) => {
+            v.$http.get('/admin/articles/table').then((res) => {
                 v.articles = res.data.success ? res.data.items : [];
             });
         },
@@ -46,15 +45,16 @@ var admin = {
                 id: 0,
                 username: '',
                 email: '',
-                image: ''
+                image: '',
+                image_upload: ''
             };
-            var url = '/admin/users/table';
-            v.$http.get(url).then((res) => {
+            v.$http.get('/admin/users/table').then((res) => {
                 v.users = res.data.success ? res.data.items : [];
             });
         },
         editUser: function (user) {
             this.edit_user = user;
+            this.edit_user['image_upload'] = '';
             this.menu = 'users_form';
         },
         saveUser: function () {

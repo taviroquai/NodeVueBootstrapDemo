@@ -21,8 +21,8 @@ Model.prototype.destroy = function(cb) {
 };
     
 // Find all
-Model.prototype.findAll = function(cb) {
-    var sql = "SELECT * FROM " + this.table;
+Model.prototype.findAll = function(select, cb) {
+    var sql = "SELECT " + select + " FROM " + this.table;
     this.app.db.all(sql, cb);
 };
     

@@ -18,12 +18,11 @@ var users_form = {
         },
         save: function(e) {
             var v = this;
-            var url = '/admin/users/save';
             v.processing = true;
             v.success = false;
             v.error = false;
             
-            v.$http.post(url, v.user)
+            v.$http.post('/admin/users/save', v.user)
             .then((res) => {
                 v.processing = false;
                 if (res.body && res.body.success) {
@@ -41,6 +40,7 @@ var users_form = {
                 var reader = new FileReader();
                 reader.onload = (re) => {
                     v.user.image_upload = re.target.result;
+                    v.$forceUpdate();
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
@@ -48,13 +48,12 @@ var users_form = {
         removeImage: function (e) {
             this.user.image = '';
             this.user.image_upload = '';
-        }
-    },
-    computed: {
-        getAvatarUrl: function () {
-            return this.user.image !== '' ? 
+            this.$forceUpdate();
+        },
+        getAvatar: function () {
+            return this.user.image ? 
                 this.avatar_uri + this.user.id + '/' + this.user.image
-                : false;
+                : (this.user.image_upload ? this.user.image_upload : false);
         }
     }
 };

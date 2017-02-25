@@ -1,5 +1,15 @@
 {{#partial "styles" }}
 <style type="text/css">
+    .dataTable {
+        width: 100% !important;
+    }
+    @media (min-width: 768px) {
+        .form-inline .btn {
+            padding: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+    }
     .table-striped tr:first-child th:last-child {
         width: 90px;
     }
@@ -63,6 +73,8 @@
 {{/partial }}
 
 {{#partial "scripts" }}
+<script src="assets/admin/js/plugins/jquery.dataTables.min.js"></script>
+<script src="assets/admin/js/plugins/dataTables.bootstrap.min.js"></script>
 <script src="/assets/admin/js/admin.js"></script>
 <script src="/assets/admin/js/dashboard.js"></script>
 <script src="/assets/admin/js/articles/index.js"></script>

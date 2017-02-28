@@ -45,6 +45,7 @@ function Mini(config) {
     
     // Display HTTP error
     this.onClientError = (err, socket) => {
+        err ? console.log(err) : false;
         socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
     };
     
@@ -164,6 +165,7 @@ function Mini(config) {
     this.encrypt = (string, auto, cb) => {
         if (auto) {
             bcrypt.genSalt(config.encrypt.salt_rounds, (err, salt) => {
+                err ? console.log(err) : false;
                 bcrypt.hash(string, salt, cb);
             });
         } else {

@@ -36,6 +36,7 @@ Model.prototype.findBy = function(field, value, cb) {
 // Find by pkey
 Model.prototype.find = function(id, cb) {
     this.findBy(this.pkey, id, (err, rows) => {
+        err ? console.log(err) : false;
         if (rows.length === 0) {
             cb(err, false);
         } else {
@@ -48,6 +49,7 @@ Model.prototype.find = function(id, cb) {
 Model.prototype.findOrNew = function(id, cb) {
     var self = this;
     this.find(id, (err, record) => {
+        err ? console.log(err) : false;
         if (err) cb(err, self.template);
         if (!record) {
             cb(err, self.template);
@@ -107,12 +109,15 @@ Model.prototype.save = function(record, data, cb) {
     if (record[this.pkey] === '' || record[this.pkey] === 0) {
         sql = "select seq from sqlite_sequence where name='" + this.table + "'";
         this.insert(data, (err) => {
+            err ? console.log(err) : false;
             self.app.db.all(sql, (err, rows) => {
+                err ? console.log(err) : false;
                 self.find(rows[0].seq, cb);
             });
         });
     } else {
         this.update(record, data, (err) => {
+            err ? console.log(err) : false;
             self.find(record[self.pkey], cb);
         });
     }

@@ -87,7 +87,9 @@ function Mini(config) {
                 if (!config.routes[i].guest && !req.session.get('logged')) {
                     
                     // Save redirect on session
-                    req.session.set('login_redirect', req.url);
+                    if (req.url.indexOf('logout') === -1) {
+                        req.session.set('login_redirect', req.url);
+                    }
                     
                     // Redirect to login route
                     res.writeHead(302, {

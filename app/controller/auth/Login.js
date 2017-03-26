@@ -20,7 +20,7 @@ function Login(app, req, res) {
             success: false,
             redirect: req.session.get('login_redirect')
         };
-        
+        console.log('get redirect: ' + data.redirect);
         if (req.method == 'POST') {
             
             const input = new formidable.IncomingForm();
